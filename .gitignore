@@ -1,0 +1,51 @@
+# ------------------------------------
+# General ignores for all projects
+# ------------------------------------
+.DS_Store
+.env
+.env.local
+.env.*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.eslintcache
+.prettierignore
+# Gitpod, VS Code, and other IDE-specific files
+.gitpod.yml
+.vscode/
+.idea/
+
+# ------------------------------------
+# Node.js (Server) ignores
+# ------------------------------------
+# The "node_modules" folder and other build artifacts
+node_modules/
+dist/
+build/
+coverage/
+
+# ------------------------------------
+# React (Web) ignores
+# ------------------------------------
+# Build output and dependencies
+/apps/web/node_modules/
+/apps/web/build/
+/apps/web/.parcel-cache/
+
+# ------------------------------------
+# React Native (Mobile) ignores
+# ------------------------------------
+# Dependencies and platform-specific build files
+/apps/mobile/node_modules/
+/apps/mobile/android/
+/apps/mobile/ios/
+/apps/mobile/npm-debug.log*
+/apps/mobile/yarn-error.log*
+
+# ------------------------------------
+# Monorepo-specific ignores
+# ------------------------------------
+# Lerna or Yarn workspaces build files
+/packages/*/node_modules/
+/packages/*/dist/
+/packages/*/build/
