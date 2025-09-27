@@ -19,7 +19,7 @@
   "devDependencies": {
     "turbo": "^2.5.8",
     "typescript": "^5.1.6",
-    "eslint": "^8.57.1",
+    "eslint": "^9.0.0",
     "prettier": "^3.6.2"
   },
   "keywords": [],
