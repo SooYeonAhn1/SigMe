@@ -1,0 +1,37 @@
+{
+  "name": "careflow",
+  "version": "1.0.0",
+  "private": true,
+  "description": "정신과를 방문하는 이들을 서포트 하기 위한 정신건강 기록 트래커",
+  "main": "index.js",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "lint": "turbo run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SooYeonAhn1/CareFlow.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SooYeonAhn1/CareFlow/issues"
+  },
+  "homepage": "https://github.com/SooYeonAhn1/CareFlow#readme",
+  "devDependencies": {
+    "turbo": "^2.5.8",
+    "typescript": "^5.1.6",
+    "ESLint": "^8.45.0",
+    "prettier": "^3.0.0"
+  },
+  "dependencies": {
+    "turbo-linux-64": "^2.5.8"
+  }
+}
