@@ -49,3 +49,5 @@ coverage/
 /packages/*/node_modules/
 /packages/*/dist/
 /packages/*/build/
+
+/.turbo/
