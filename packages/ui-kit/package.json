@@ -1,10 +1,11 @@
 {
   "name": "ui-kit",
   "version": "1.0.0",
-  "description": "",
+  "description": "package.json for ui-kit",
+  "packageManager": "npm@10.9.3",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon app.js",
+    "dev": "tsc --watch --preserveWatchOutput",
     "start": "node dist/app.js",
     "build": "tsc -p tsconfig.json",
     "test": "jest"
@@ -17,10 +18,10 @@
     "mongoose": "^7.8.7"
   },
   "devDependencies": {
-    "turbo": "^2.5.8",
-    "typescript": "^5.1.6",
     "eslint": "^9.0.0",
-    "prettier": "^3.6.2"
+    "prettier": "^3.6.2",
+    "turbo": "^2.5.8",
+    "typescript": "^5.1.6"
   },
   "keywords": [],
   "author": "",

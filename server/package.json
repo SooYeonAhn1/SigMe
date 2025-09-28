@@ -1,7 +1,8 @@
 {
   "name": "server-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "package.json for server-api",
+  "packageManager": "npm@10.9.3",
   "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",

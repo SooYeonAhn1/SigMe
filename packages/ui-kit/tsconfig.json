@@ -1,0 +1,23 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "CommonJS",
+    "jsx": "react",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    
+    "outDir": "./dist",
+    "rootDir": "./src",
+    
+    "baseUrl": ".",
+    "paths": {
+      "@app/shared-types": ["../shared-types"], 
+      "@app/utils": ["../utils"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}

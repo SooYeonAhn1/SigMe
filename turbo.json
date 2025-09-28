@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/turbo",
+  "tasks": {
+    "build": {
+      "outputs": ["dist/**", "build/**"],
+      "dependsOn": ["^build"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "test": {
+      "dependsOn": ["build"],
+      "outputs": []
+    }
+  }
+}

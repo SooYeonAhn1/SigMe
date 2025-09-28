@@ -1,0 +1,32 @@
+
+> apps-web@1.0.0 dev
+> react-scripts start
+
+[1G[0K(node:23992) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:23992) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+[2J[3J[H[36mStarting the development server...[39m
+[36m[39m
+[2J[3J[H[32mCompiled successfully![39m
+
+You can now view [1mapps-web[22m in the browser.
+
+  [1mLocal:[22m            http://localhost:[1m3000[22m
+  [1mOn Your Network:[22m  http://172.24.190.102:[1m3000[22m
+
+Note that the development build is not optimized.
+To create a production build, use [36mnpm run build[39m.
+
+webpack compiled [1m[32msuccessfully[39m[22m
+[2J[3J[HCompiling...
+[2J[3J[H[32mCompiled successfully![39m
+
+You can now view [1mapps-web[22m in the browser.
+
+  [1mLocal:[22m            http://localhost:[1m3000[22m
+  [1mOn Your Network:[22m  http://172.24.190.102:[1m3000[22m
+
+Note that the development build is not optimized.
+To create a production build, use [36mnpm run build[39m.
+
+webpack compiled [1m[32msuccessfully[39m[22m
