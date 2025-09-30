@@ -28,15 +28,25 @@ const userSchema = new mongoose.Schema(
       minlength: 3,
       maxlength: 8,
     },
+    roles: {
+      type: [String],
+      enum: ["user", "dbAdmin"],
+      default: ["user"],
+    },
+    // birthDate: { type: Date, required: true },
+    // hasMenstruation: { type: Boolean, required: true },
+    // settings:{},
+    // answers: [{}],
   },
+
   // birthDate: { type: Date, required: true },
   // hasMenstruation: { type: Boolean, required: true },
-  // roles: { type: [String], enum: ["user", "admin"], default: ["user"] },
   // settings:{},
   // answers: [{}],
   { timestamps: true } // createdAt, updatedAt
 );
 
+userSchema.index({ roles: 1 });
 userSchema.index({ email: 1 }, { unique: true });
 userSchema.index({ username: 1 }, { unique: true });
 userSchema.index({ createdAt: -1 });
