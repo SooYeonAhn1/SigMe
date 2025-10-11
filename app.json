@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "f7b5581f-26ef-4770-8e23-ebee9724193e"
+      }
+    },
+    "owner": "devsolk",
+    "slug": "sigme"
+  }
+}
