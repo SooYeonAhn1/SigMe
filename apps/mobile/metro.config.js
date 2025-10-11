@@ -1,24 +1,37 @@
-const path = require("path");
-const { getDefaultConfig } = require("expo/metro-config");
+const path = require('path');
+const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
 
-const workspaceRoot = path.resolve(__dirname, "..", "..");
-const projectRoot = __dirname;
+const workspaceRoot = path.resolve(__dirname, '..', '..');
 
-const config = getDefaultConfig(projectRoot);
+const defaultConfig = getDefaultConfig(__dirname);
+const {
+  resolver: { sourceExts, assetExts },
+} = defaultConfig;
 
 /**
  * Metro configuration for monorepo
  */
-config.watchFolders = [workspaceRoot];
+const config = {
+  watchFolders: [workspaceRoot],
 
-config.resolver.nodeModulesPaths = [
-  path.resolve(__dirname, "node_modules"),
-  path.join(workspaceRoot, "node_modules"),
-];
+  resolver: {
+    nodeModulesPaths: [
+      path.resolve(__dirname, 'node_modules'),
+      path.join(workspaceRoot, 'node_modules'),
+    ],
 
-config.resolver.assetExts = config.resolver.assetExts.filter(
-  (ext) => ext !== "svg"
-);
-config.resolver.sourceExts = [...config.resolver.sourceExts, "svg"];
+    assetExts: assetExts.filter(ext => ext !== 'svg'),
+    sourceExts: [...sourceExts, 'svg'],
+  },
 
-module.exports = config;
+  transformer: {
+    getTransformOptions: async () => ({
+      transform: {
+        experimentalImportSupport: false,
+        inlineRequires: true,
+      },
+    }),
+  },
+};
+
+module.exports = mergeConfig(defaultConfig, config);

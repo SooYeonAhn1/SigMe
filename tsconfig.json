@@ -1,18 +1,23 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "Node16",
+    "module": "CommonJS",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
-    "moduleResolution": "Node16",
+    
+    "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
       "@app/shared-types": ["packages/shared-types"],
       "@app/utils": ["packages/utils"]
     }
   },
-  "include": ["apps/**/*", "packages/**/*", "server/**/*"],
-  "extends": "expo/tsconfig.base"
+  
+  "include": [
+    "apps/**/*", 
+    "packages/**/*", 
+    "server/**/*"
+  ]
 }
