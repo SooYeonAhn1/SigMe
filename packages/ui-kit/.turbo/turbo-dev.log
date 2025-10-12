@@ -1,8 +1,0 @@
-
-> ui-kit@1.0.0 dev
-> tsc --watch --preserveWatchOutput
-
-[1G[0K[[90m10:22:55 PM[0m] Starting compilation in watch mode...
-
-[[90m10:22:57 PM[0m] Found 0 errors. Watching for file changes.
-
