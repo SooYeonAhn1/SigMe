@@ -1,13 +1,17 @@
-export default function Settings() {
-    const goToDailyLogs = () => {
-        window.location.href = '/daily-logs';
-    }
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../constants/routes";
 
-    return (
-        <div>
-            <h1>You can manage your settings here</h1>
-            {console.log("settings component rendered")}
-            <button onClick={goToDailyLogs}>Go log your day</button>
-        </div>
-    );
+export default function Settings() {
+  const navigate = useNavigate();
+  return (
+    <div>
+      <h1>You can manage your settings here</h1>
+      {console.log("settings component rendered")}
+      <button onClick={() => navigate(ROUTES.DAILY_LOGS)}>Daily logs</button>
+      <button onClick={() => navigate(ROUTES.CHECKLIST)}>Checklist</button>
+      <button onClick={() => navigate(ROUTES.MEDS_INFO)}>
+        Medicaitons Infomation
+      </button>
+    </div>
+  );
 }
