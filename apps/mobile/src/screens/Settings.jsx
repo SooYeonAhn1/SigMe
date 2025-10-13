@@ -4,6 +4,15 @@ export default function Settings({ navigation }) {
   const goToDailyLogs = () => {
     navigation.navigate("DailyLogs");
   };
+  const goToMedsInfo = () => {
+    navigation.navigate("Medication Information");
+  };
+  const goToChecklist = () => {
+    navigation.navigate("Checklist");
+  };
+  const goToReport = () => {
+    navigation.navigate("Report");
+  };
 
   return (
     <View style={styles.container}>
@@ -12,6 +21,16 @@ export default function Settings({ navigation }) {
       <TouchableOpacity onPress={goToDailyLogs}>
         <Text>Go log your day</Text>
       </TouchableOpacity>
+      <TouchableOpacity onPress={goToReport}>
+        <Text>Visit your report</Text>
+      </TouchableOpacity>  
+      <TouchableOpacity onPress={goToMedsInfo}>
+        <Text>Update your medication</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={goToChecklist}>
+        <Text>Update your checklist</Text>
+      </TouchableOpacity>  
+
     </View>
   );
 }

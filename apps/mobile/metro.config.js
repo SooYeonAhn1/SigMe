@@ -16,6 +16,8 @@ config.resolver.nodeModulesPaths = [
   path.join(workspaceRoot, "node_modules"),
 ];
 
+config.resolver.disableHierarchicalLookup = true;
+
 config.resolver.assetExts = config.resolver.assetExts.filter(
   (ext) => ext !== "svg"
 );

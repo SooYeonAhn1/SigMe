@@ -4,6 +4,9 @@ import DailyLogs from "./src/screens/DailyLogs";
 import Landing from "./src/screens/Landing";
 import Register from "./src/screens/Register";
 import Settings from "./src/screens/Settings";
+import Reports from "./src/screens/Report";
+import MedsInfo from "./src/screens/MedsInfo";
+import Checklist from "./src/screens/Checklist";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +24,9 @@ export default function App() {
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="DailyLogs" component={DailyLogs} />
         <Stack.Screen name="Settings" component={Settings} />
+        <Stack.Screen name="Report" component={Reports} />
+        <Stack.Screen name="Medication Information" component={MedsInfo} />
+        <Stack.Screen name="Checklist" component={Checklist} />
       </Stack.Navigator>
     </NavigationContainer>
   );
