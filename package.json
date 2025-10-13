@@ -1,5 +1,5 @@
 {
-  "name": "careflow",
+  "name": "SigMe",
   "version": "1.0.0",
   "private": true,
   "packageManager": "npm@10.9.3",
@@ -18,15 +18,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SooYeonAhn1/CareFlow.git"
+    "url": "https://github.com/SooYeonAhn1/SigMe.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/SooYeonAhn1/CareFlow/issues"
+    "url": "https://github.com/SooYeonAhn1/SigMe/issues"
   },
-  "homepage": "https://github.com/SooYeonAhn1/CareFlow#readme",
+  "homepage": "https://github.com/SooYeonAhn1/SigMe#readme",
   "devDependencies": {
     "eslint": "^9.0.0",
     "nodemon": "^3.1.10",
