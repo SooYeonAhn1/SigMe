@@ -53,6 +53,7 @@ coverage/
 # Logs
 .expo
 .turbo
-
+.turbo/
+.expo/
 # Expo
 app.json
