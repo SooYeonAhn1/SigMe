@@ -50,5 +50,6 @@ coverage/
 /packages/*/dist/
 /packages/*/build/
 
-/.turbo/
-/.expo/
+# Logs
+.expo
+.turbo
