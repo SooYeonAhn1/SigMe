@@ -7,6 +7,7 @@ import Settings from "./src/screens/Settings";
 import Reports from "./src/screens/Report";
 import MedsInfo from "./src/screens/MedsInfo";
 import Checklist from "./src/screens/Checklist";
+import Login from "./src/screens/Login";
 
 const Stack = createNativeStackNavigator();
 

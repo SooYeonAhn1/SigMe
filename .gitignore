@@ -55,5 +55,7 @@ coverage/
 .turbo
 .turbo/
 .expo/
+
 # Expo
 app.json
+apps/mobile/app.json

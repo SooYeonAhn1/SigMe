@@ -1,18 +1,31 @@
+---
+### 🌐 Other Languages / 다른 언어
+- **[English](README.md)**
+- [한국어 (Korean)](README-ko.md)
+---
 # SigMe
+A symptom and mood tracker to optimize psychiatric care/appointments.
 
-정신과를 방문하는 환자들을 서포트 하기 위한 정신건강 기록 트래커.
+## Project Motivation
+The public awareness of mental health has recently improved, leading to a steady increase in the number of individuals seeking psychiatric care. The barriers to acknowledging mental distress and seeking professional help are lowering, and the importance of mental health management is now widely understood.
 
-## 프로젝트 동기
+However, individuals, particularly those new to psychiatric consultation, often find it challenging to communicate their condition fully within the limited session time, often feeling uncertain about what information to prioritize. Furthermore, relying solely on memory to recount daily symptoms can lead to the omission of crucial details, impede the objective identification of symptom patterns, and cause patients to withhold sensitive information.
 
-최근 정신건강에 대한 인식이 개선되고 사회적 관심이 높아지면서 정신과를 찾는 이들이 증가하고 있습니다. 마음 속 어려움을 인지하고 전문적인 도움을 구하는 것에 대한 장벽이 낮아지고 있으며, 정신건강 관리의 중요성에 대한 이해 또한 확산되고 있습니다.
-
-하지만 정신과를 처음 방문하는 경우 진료 시 무엇을 이야기해야 할지 막연하여 제한된 시간 안에 자신의 상태를 충분히 전달하는 데 어려움을 겪는 경우가 많습니다. 더욱이 일상에서 경험한 증상들을 기억에만 의존해 전달하다 보면 중요한 정보를 놓치거나 객관적인 패턴을 파악하기 어렵고, 민감한 내용은 말하기 어려워 숨기게 되기도 합니다.
-
-저희는 환자가 스스로의 상태를 더 효과적으로 전달할 수 있도록, 일상생활에서 겪는 어려움과 객관적인 데이터를 기록하고 제시함으로써 의사와 환자 간의 소통을 개선하고 적절한 치료 방향 설정에 도움이 되고자 SigMe 애플리케이션을 개발하게 되었습니다.
+This is why we developed SigMe (short for 'signal' + 'me'). Our goal is to empower patients to communicate their state more effectively by recording and presenting objective data on daily life struggles and symptoms. This application is designed to enhance communication between the physician and the patient, thereby aiding in the establishment of appropriate treatment directions.
 
 ## Development process
-
+Prerequisites: Node.js
+1. Clone the repository:
+```
+$ git clone https://github.com/SooYeonAhn1/SigMe.git SigMe
+$ cd SigMe
+```
+2. Install dependencies:
 ```
 $ npm install
+```
+3. Run the application in development mode:
+```
 $ npm run dev
 ```
+
