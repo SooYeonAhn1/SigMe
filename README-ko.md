@@ -1,8 +1,10 @@
----
 ### 🌐 다른 언어 / Other Languages
+
 - [English](README.md)
 - **[한국어 (Korean)](README-ko.md)**
+
 ---
+
 # SigMe
 
 정신과를 방문하는 환자들을 서포트 하기 위한 정신건강 기록 트래커.
@@ -16,18 +18,24 @@
 저희는 환자가 스스로의 상태를 더 효과적으로 전달할 수 있도록, 일상생활에서 겪는 어려움과 객관적인 데이터를 기록하고 제시함으로써 의사와 환자 간의 소통을 개선하고 적절한 치료 방향 설정에 도움이 되고자 SigMe 애플리케이션을 개발하게 되었습니다.
 
 ## 개발 진행 방법
+
 필수 사항: Node.js
+
 1. 리포지토리 클론:
+
 ```
 $ git clone https://github.com/SooYeonAhn1/SigMe.git SigMe
 $ cd SigMe
 ```
+
 2. 종속성 설치:
+
 ```
 $ npm install
 ```
+
 3. 개발 모드로 애플리케이션 실행:
+
 ```
 $ npm run dev
 ```
-
