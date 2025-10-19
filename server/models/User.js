@@ -3,10 +3,10 @@ const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema(
   {
     authType: {
-        type: String,
-        enum: ["google", "kakao", "local"], 
-        required: true,
-        default: 'local'
+      type: String,
+      enum: ["google", "kakao", "local"],
+      required: true,
+      default: "local",
     },
     email: {
       type: String,
@@ -17,36 +17,37 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
+      required: function () {
+        return this.authType === "local";
+      },
       minlength: 8,
       select: false,
       match: [
-        /^[A-Za-z0-9!@#$%^&*(),.?":{}|<>_\-+=~`[\]\\;/]+$/,
+        /^[A-Za-z0-9!@#$%^&*(),.?:{}|<>_\-+=~`[\]\\;/]+$/,
         "A-Z, a-z, numbers, and special characters only allowed (case sensitive)",
       ],
     },
     google: {
-        googleUID: {
-            type: String,
-            sparse: true,
-            select: false,
-        },
-        refreshToken: {
-            type: String,
-            select: false,
-        },
+      googleUID: {
+        type: String,
+        sparse: true,
+        select: false,
+      },
+      refreshToken: {
+        type: String,
+        select: false,
+      },
     },
-
     kakao: {
-        kakaoUID: {
-            type: String,
-            sparse: true,
-            select: false,
-        },
-        refreshToken: {
-            type: String, 
-            select: false,
-        },
+      kakaoUID: {
+        type: String,
+        sparse: true,
+        select: false,
+      },
+      refreshToken: {
+        type: String,
+        select: false,
+      },
     },
 
     username: {
@@ -64,17 +65,8 @@ const userSchema = new mongoose.Schema(
       enum: ["user", "dbAdmin"],
       default: ["user"],
     },
-    // birthDate: { type: Date, required: true },
-    // hasMenstruation: { type: Boolean, required: true },
-    // settings:{},
-    // answers: [{}],
   },
-
-// birthDate: { type: Date, required: true },
-// hasMenstruation: { type: Boolean, required: true },
-// settings:{},
-// answers: [{}],
-{ timestamps: true } // createdAt, updatedAt
+  { timestamps: true } // createdAt, updatedAt
 );
 
 userSchema.index({ roles: 1 });
@@ -82,8 +74,8 @@ userSchema.index({ email: 1 }, { unique: true });
 userSchema.index({ username: 1 }, { unique: true });
 userSchema.index({ createdAt: -1 });
 
-userSchema.index({ 'google.googleUID': 1 }, { unique: true, sparse: true });
-userSchema.index({ 'kakao.kakaoUID': 1 }, { unique: true, sparse: true });
+userSchema.index({ "google.googleUID": 1 }, { unique: true, sparse: true });
+userSchema.index({ "kakao.kakaoUID": 1 }, { unique: true, sparse: true });
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 module.exports = User;
