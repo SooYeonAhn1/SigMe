@@ -7,4 +7,5 @@ export const ROUTES = {
   REPORT: "/report",
   CHECKLIST: "/checklist",
   MEDS_INFO: "/meds-info",
+  DASHBOARD: "/dashboard",
 };

@@ -8,6 +8,7 @@ import Settings from "./pages/Settings";
 import Reports from "./pages/Report";
 import MedsInfo from "./pages/MedsInfo";
 import Checklists from "./pages/Checklist";
+import Dashboard from "./pages/Dashboard";
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
         <Route path={ROUTES.REPORT} element={<Reports />} />
         <Route path={ROUTES.CHECKLIST} element={<Checklists />} />
         <Route path={ROUTES.MEDS_INFO} element={<MedsInfo />} />
+        <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
         {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
       </Routes>
     </BrowserRouter>

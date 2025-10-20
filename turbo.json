@@ -7,7 +7,14 @@
     },
     "dev": {
       "cache": false,
-      "persistent": true
+      "persistent": true,
+      "passThroughEnv" : ["AUTH_API_BASE_URL",
+                          "EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID",
+                          "EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID",
+                          "EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID",
+                          "EXPO_PUBLIC_GOOGLE_WEB_CLIENT_SECRET",
+                          "REACT_APP_API_BASE_URL",
+                          "REACT_APP_GOOGLE_CLIENT_ID"]
     },
     "test": {
       "dependsOn": ["build"],

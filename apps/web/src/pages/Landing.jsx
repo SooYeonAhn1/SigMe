@@ -39,6 +39,9 @@ export default function Landings() {
       <button disabled={!developing} onClick={() => navigate(ROUTES.CHECKLIST)}>
         Checklist
       </button>
+      <button disabled={!developing} onClick={() => navigate(ROUTES.DASHBOARD)}>
+        Dashboard
+      </button>
     </div>
   );
 }

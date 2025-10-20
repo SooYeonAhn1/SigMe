@@ -13,8 +13,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "turbo run build",
-    "dev": "turbo run dev --parallel",
-    "lint": "turbo run lint"
+    "dev": "dotenv -- turbo run dev --parallel",
+    "lint": "turbo run lint",
+    "mobile:dev": "dotenv -- turbo run dev --filter=apps-mobile",
+    "web:dev": "dotenv -- turbo run dev --filter=apps-web"
   },
   "repository": {
     "type": "git",
@@ -28,7 +30,9 @@
   },
   "homepage": "https://github.com/SooYeonAhn1/SigMe#readme",
   "devDependencies": {
+    "@types/react": "~19.1.10",
     "concurrently": "^9.2.1",
+    "dotenv-cli": "^10.0.0",
     "eslint": "^9.0.0",
     "nodemon": "^3.1.10",
     "prettier": "^3.0.0",
@@ -39,6 +43,7 @@
     "@react-oauth/google": "^0.12.2",
     "ajv": "^8.17.1",
     "ajv-keywords": "^5.1.0",
+    "dotenv": "^17.2.3",
     "turbo": "^2.5.8"
   },
   "overrides": {

@@ -1,47 +1,64 @@
 import { useState } from 'react';
 import { View, Text, Button, ActivityIndicator, StyleSheet } from 'react-native';
-import { useGoogleAuth } from '../auths/useGoogleAuth';
+import { useGoogleAuth } from '../hooks/useGoogleAuth';
 
-export default function LoginScreen({ navigation }) {
-    const [ loading, setLoading ] = useState(false);
-    const { googleSignIn, googleError } = useGoogleAuth(); 
-  
+export default function Login({navigation}) {
+    const [ isLoading, setIsLoading ] = useState(false);
+    const { promptAsync, request } = useGoogleAuth();
+    
     const handleGoogleSignIn = async () => {
-        setLoading(true);
+        if (!request) {
+            console.warn("Google Auth configuration not ready.");
+            return;
+        }
+        setIsLoading(true);
         try {
-            const sessionData = await googleSignIn(); 
-            if (sessionData) {
-                navigation.navigate('Landing'); 
+            const sessionData = await promptAsync();
+            if (sessionData && sessionData.type === 'success') {
+                console.log("Sign-in successful: ", sessionData);
+                // navigation.navigate('Dashboard');
+            } else {
+                console.error("Sign-in was not successful: ", sessionData);
             }
-        } catch (e) {
-            console.error("Sign-in failed at UI level:", e);
+        } catch (error) {
+            console.error("Sign-in failed at UI level: ", error);
         } finally {
-            setLoading(false);
+            setIsLoading(false);
         }
     };
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Sign In to SigMe</Text>
-      
-      {loading ? (
-        <ActivityIndicator size="large" color="#4285F4" />
-      ) : (
-        <>
-          {googleError && <Text style={styles.error}>Error: {error}</Text>}
+    const disabled = !request || isLoading;
 
-          {/* The button calls the hook for google */}
-          <Button 
-            title="Sign In with Google" 
-            onPress={handleGoogleSignIn} 
-            disabled={loading}
-          />
-        </>
-      )}
-    </View>
-  );
+    // console.log('Generated Redirect URI:', redirectUri);
+
+    return (
+        <Button 
+           title={isLoading ? "Loading..." : "Sign in with Google"}
+            onPress={handleGoogleSignIn}
+            // disabled={isDisabled}
+            style={styles.container} 
+        >
+            {isLoading && <ActivityIndicator size="small" color="#fff" />}
+        </Button>
+    );
 }
 
-const styles = StyleSheet.create({ 
-    
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    button: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 10,
+        backgroundColor: '#000000ff',
+        borderRadius: 5,
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 16,
+        marginLeft: 10,
+    }
 });

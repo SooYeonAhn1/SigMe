@@ -1,9 +1,21 @@
 require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose"); 
 const { googleLoginController } = require("./auths/social.controllers");
 
+const path = require('path'); 
+console.log('Attempting to connect to MongoDB with URI:', process.env.MONGODB_URI);
+
+if (process.env.MONGODB_URI === undefined) { // depending on cwd settings .env may not be loaded correctly
+    require('dotenv').config({ 
+        path: path.resolve(__dirname, '..', '.env') 
+    }); 
+}
+
+console.log('Current path: ', __dirname);
+console.log('Attempting to connect to MongoDB with URI:', process.env.MONGODB_URI);
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
@@ -23,9 +35,9 @@ app.get("/", (req, res) => {
   });
 });
 
-app.post('/auth/google', googleLoginController);
+app.post('/auth/google', googleLoginController); // for web
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is running on port ${PORT}`);
   console.log(`Access the server via: http://localhost:${PORT}`);
 });

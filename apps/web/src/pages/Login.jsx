@@ -11,7 +11,7 @@ export default function LoginPage() {
   const onSuccess = async (credentialResponse) => {
     try {
       await handleGoogleSuccess(credentialResponse);
-      navigate(ROUTES.SETTINGS);
+      navigate(ROUTES.DASHBOARD);
     } catch (error) {
       console.error("Sign-in failed:", error);
     }

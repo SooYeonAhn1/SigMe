@@ -1,5 +1,6 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useGoogleAuth } from "../auths/useGoogleAuth";
+import React, { useContext, useEffect } from 'react';
+import { View, Text, ActivityIndicator, TouchableOpacity, StyleSheet } from 'react-native';
+import { useAuth } from '../hooks/AuthContext';
 
 export default function Landing({ navigation }) {
     const developing = true; //set to false when deploying the app
@@ -7,18 +8,32 @@ export default function Landing({ navigation }) {
         navigation.navigate("Register");
     };
 
-    const checkLoginAndRedirect = () => {
-        const { googelIsSignedIn } = useGoogleAuth();
-        if (!googleIsSignedIn) {
-            navigation.navigate("Login");
+    const { user, isLoading } = useAuth();
+    console.log("Landing screen - isLoading: ", isLoading, " user: ", user);
+    useEffect(() => {
+        if (!isLoading) {
+            if (user) {
+                console.log("User is logged in: ", user);
+                navigation.navigate("Dashboard");
+            } else {
+                console.log("No user logged in, redirecting to Login.");
+                navigation.navigate("Login");
+            }
         }
-    }    
+    }, [isLoading, user, navigation]);
+
+    // const checkLoginAndRedirect = () => {
+    //     const { googelIsSignedIn } = useGoogleAuth();
+    //     if (!googleIsSignedIn) {
+    //         navigation.navigate("Login");
+    //     }
+    // }    
 
     return (
         <View style={styles.container}>
             <Text>Welcome to SigMe. You landed to our homepage</Text>
             {console.log("landing component rendered")}
-            {checkLoginAndRedirect()}
+            {/* {checkLoginAndRedirect()} */}
             <TouchableOpacity onPress={goToRegister}>
                 <Text>Click to register</Text>
             </TouchableOpacity>
@@ -43,6 +58,12 @@ export default function Landing({ navigation }) {
             </TouchableOpacity>
             <TouchableOpacity disabled={!developing} onPress={() => {navigation.navigate("Checklist")}}>
                 <Text>Checklist</Text>
+            </TouchableOpacity>
+            <TouchableOpacity disabled={!developing} onPress={() => {navigation.navigate("Dashboard")}}>
+                <Text>Dashboard</Text>
+            </TouchableOpacity>
+            <TouchableOpacity disabled={!developing} onPress={() => {navigation.navigate("Login")}}>
+                <Text>Login</Text>
             </TouchableOpacity>
         </View>
     );
