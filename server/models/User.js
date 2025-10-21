@@ -1,10 +1,13 @@
 const mongoose = require("mongoose");
 
+const PASSWORD_REGEX =
+  /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^*,.?])[A-Za-z\d!@#$%^*,.?]{8,}$/;
+
 const userSchema = new mongoose.Schema(
   {
     authType: {
       type: String,
-      enum: ["google", "kakao", "local"],
+      enum: ["google", "local"], // "kakao",
       required: true,
       default: "local",
     },
@@ -22,10 +25,11 @@ const userSchema = new mongoose.Schema(
       },
       minlength: 8,
       select: false,
-      match: [
-        /^[A-Za-z0-9!@#$%^&*(),.?:{}|<>_\-+=~`[\]\\;/]+$/,
-        "A-Z, a-z, numbers, and special characters only allowed (case sensitive)",
-      ],
+      validate: {
+        validator: (v) => PASSWORD_REGEX.test(v),
+        message:
+          "Password must be at least 8 characters and include at least one uppercase letter, one lowercase letter, one digit, and one special character from !@#$%^*,.?",
+      },
     },
     google: {
       googleUID: {
@@ -38,7 +42,7 @@ const userSchema = new mongoose.Schema(
         select: false,
       },
     },
-    kakao: {
+    /*    kakao: {
       kakaoUID: {
         type: String,
         sparse: true,
@@ -48,14 +52,17 @@ const userSchema = new mongoose.Schema(
         type: String,
         select: false,
       },
-    },
+    },*/
 
     username: {
       // nickname
       type: String,
       required: true,
-      unique: true,
       trim: true,
+      match: [
+        /^[A-Za-z0-9가-힣'\-]+$/,
+        "English letters, Korean letters, digits, apostrophes ('), and dashes (-) only allowed",
+      ],
       minlength: 3,
       maxlength: 8,
     },
@@ -75,7 +82,7 @@ userSchema.index({ username: 1 });
 userSchema.index({ createdAt: -1 });
 
 userSchema.index({ "google.googleUID": 1 }, { unique: true, sparse: true });
-userSchema.index({ "kakao.kakaoUID": 1 }, { unique: true, sparse: true });
+// userSchema.index({ "kakao.kakaoUID": 1 }, { unique: true, sparse: true });
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 module.exports = User;
