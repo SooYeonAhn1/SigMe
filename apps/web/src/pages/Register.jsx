@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../constants/routes';
 
 export default function Register() {
+    console.log("All Environment Variables:", process.env);
+    const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+    
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -14,10 +17,9 @@ export default function Register() {
             email: email,
             password: password
         };
-
-
+        console.log("AUTH_API_BASE_URL: ", API_BASE_URL);
         try {
-            const response = await fetch(`${AUTH_API_BASE_URL}/api/register`, {
+            const response = await fetch(`${API_BASE_URL}/api/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

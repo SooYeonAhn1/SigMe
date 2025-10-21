@@ -5,13 +5,14 @@ const passwordUtils = require("./password");
 const UserDB = require("../models/User");
 const { OAuth2Client } = require("google-auth-library");
 
-const googleClient = new OAuth2Client(process.env.GOOGLE_WEB_CLIENT_ID);
+const GOOGLE_WEB_CLIENT_ID = process.env.GOOGLE_WEB_CLIENT_ID;
+const googleClient = new OAuth2Client(GOOGLE_WEB_CLIENT_ID);
 
 // token verification set up
 async function verifyGoogleToken(token) {
   const ticket = await googleClient.verifyIdToken({
     idToken: token,
-    audience: process.env.GOOGLE_WEB_CLIENT_ID,
+    audience: GOOGLE_WEB_CLIENT_ID,
   });
   const payload = ticket.getPayload();
   return {

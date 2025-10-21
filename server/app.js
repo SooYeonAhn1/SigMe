@@ -39,6 +39,9 @@ app.get("/", (req, res) => {
 console.log('registerController type:', typeof registerController);
 app.post('/auth/google', googleLoginController);
 app.post('/api/register', registerController);
+console.log(
+  "Succesfully did either of these: Registered routes: POST /auth/google -> googleLoginController, POST /api/register -> registerController"
+)
 
 
 app.listen(PORT, '0.0.0.0', () => {
