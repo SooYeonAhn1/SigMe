@@ -1,47 +1,43 @@
+// apps/web/src/pages/Register.jsx
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../constants/routes';
+import { useLocalAuth } from '../hooks/useLocalAuth';
 
 export default function Register() {
-    console.log("All Environment Variables:", process.env);
+    // console.log("All Environment Variables:", process.env);
     const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
     
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const { handleLocalSuccess,
+    handleLocalError,
+    // localSignOut,
+    localError,
+    loading } = useLocalAuth();
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const registrationData = {
-            email: email,
-            password: password
-        };
-        console.log("AUTH_API_BASE_URL: ", API_BASE_URL);
         try {
-            const response = await fetch(`${API_BASE_URL}/api/register`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(registrationData),
-            })
-
-            if (response.status === 409) {
-                alert('Your email is already registered. Redirecting to login page.');
-                navigate(ROUTES.LOGIN);
-                return; // no further action needed
-            }
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Registration failed on the server.');
-            }
-            const data = await response.json();
-            console.log("successfully received data: ", data);
+            await handleLocalSuccess(email, password);
             navigate(ROUTES.DASHBOARD);
         } catch (error) {
-            console.error('Frontend Error:', error.message);
-            // alert('An error occurred. Check the console for details.');
+            if (error) {
+                if (error.message.includes("already registered")) {
+                    navigate(ROUTES.DASHBOARD);
+                    return;
+                } else if (error.message.includes("already taken")) {
+                    alert("This email is already registered. Redirecting to login page.");
+                    navigate(ROUTES.LOGIN);
+                    return;
+                }
+            } 
+            console.error("Registration failed: ", error);
+            alert("Registration failed. Please try again.");
         }
     }
 

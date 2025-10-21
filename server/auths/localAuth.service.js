@@ -38,7 +38,15 @@ async function registerController(req, res) {
 
   await newUser.save();
 
-  return res.status(201).json({ message: "User registered successfully" });
+  const accessToken = jwtUtils.generateAccessToken(newUser._id);
+  const refreshToken = jwtUtils.generateRefreshToken(newUser._id); 
+
+  return res.status(201).json({ 
+      message: "User registered successfully",
+      user: { email: newUser.email, username: newUser.username },
+      accessToken: accessToken,
+      refreshToken: refreshToken
+  });
 }
 
 module.exports = {

@@ -1,6 +1,7 @@
 import { GoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
 import { useGoogleAuth } from "../hooks/useGoogleAuth";
+import { useLocalAuth } from '../hooks/useLocalAuth';
 import { ROUTES } from "../constants/routes";
 
 export default function LoginPage() {
@@ -14,12 +15,18 @@ export default function LoginPage() {
       navigate(ROUTES.DASHBOARD);
     } catch (error) {
       console.error("Sign-in failed:", error);
+      alert("Sign-in failed. Please try again.");
     }
   };
 
   return (
     <div>
       <h1>Sign In to SigMe</h1>
+      <form onSubmit={handleSubmit}>
+        <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required/>
+        <input type="password" id="password"value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required/>
+        <button type="submit">Register</button>
+      </form>
       {loading && <p>Loading...</p>}
       {googleError && <p>{googleError}</p>}
       {!loading && (

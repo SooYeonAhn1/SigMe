@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { Platform } from 'react-native';
 
-import { authenticateUserWithBackend } from '../../../services/authApi';
+import { authGoogleUserWithBackend } from '../services/authApi';
 import { AuthContext } from './AuthContext';
 
 WebBrowser.maybeCompleteAuthSession();
@@ -22,7 +22,7 @@ export const useGoogleAuth = () => {
     const navigation = useNavigation();
     const [authSuccess, setAuthSuccess] = useState(false);
 
-    const WEB_REDIRECT_URI = 'http://127.0.0.1:8081'; 
+    const WEB_REDIRECT_URI = process.env.EXPO_PUBLIC_GOOGLE_API_BASE_URL || 'http://127.0.0.1:5000'; 
 
     const redirectUri = AuthSession.makeRedirectUri({
         useProxy: true,
@@ -55,7 +55,7 @@ export const useGoogleAuth = () => {
                     return;
                 }
                 try {
-                    const data = await authenticateUserWithBackend(idToken);
+                    const data = await authGoogleUserWithBackend(idToken);
                     // console.log('Backend authentication successful:', data);
                     if (Platform.OS !== 'web') {
                         await SecureStore.setItemAsync(ACCESS_TOKEN_KEY, data.accessToken);

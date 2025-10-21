@@ -1,7 +1,6 @@
 import React, { createContext, useState, useEffect, useContext, use } from 'react';
 import * as SecureStore from 'expo-secure-store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import { authenticateUserWithBackend } from '../services/authApi';
 import { Platform } from 'react-native';
 
 const ACCESS_TOKEN_KEY = 'userAccessToken';
