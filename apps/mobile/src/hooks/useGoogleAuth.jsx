@@ -56,7 +56,7 @@ export const useGoogleAuth = () => {
                 }
                 try {
                     const data = await authenticateUserWithBackend(idToken);
-                    console.log('Backend authentication successful:', data);
+                    // console.log('Backend authentication successful:', data);
                     if (Platform.OS !== 'web') {
                         await SecureStore.setItemAsync(ACCESS_TOKEN_KEY, data.accessToken);
                         await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, data.refreshToken);

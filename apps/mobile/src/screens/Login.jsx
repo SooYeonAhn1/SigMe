@@ -35,7 +35,6 @@ export default function Login({navigation}) {
         <Button 
            title={isLoading ? "Loading..." : "Sign in with Google"}
             onPress={handleGoogleSignIn}
-            // disabled={isDisabled}
             style={styles.container} 
         >
             {isLoading && <ActivityIndicator size="small" color="#fff" />}

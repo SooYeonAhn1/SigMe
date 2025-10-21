@@ -71,7 +71,7 @@ const userSchema = new mongoose.Schema(
 
 userSchema.index({ roles: 1 });
 userSchema.index({ email: 1 }, { unique: true });
-userSchema.index({ username: 1 }, { unique: true });
+userSchema.index({ username: 1 });
 userSchema.index({ createdAt: -1 });
 
 userSchema.index({ "google.googleUID": 1 }, { unique: true, sparse: true });
