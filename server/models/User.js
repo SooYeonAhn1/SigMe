@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const PASSWORD_REGEX =
-  /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^*,.?])[A-Za-z\d!@#$%^*,.?]{8,}$/;
+  /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*,.?])[A-Za-z\d!@#$%^&*,.?]{8,}$/;
 
 const userSchema = new mongoose.Schema(
   {
