@@ -18,9 +18,9 @@ export default function Dashboard({ navigation }) {
             <TouchableOpacity onPress={goToSettings}>
                 <Text>Go to settings</Text>
             </TouchableOpacity>  
-            <TouchableOpacity onPress={() => navigation.navigate("Landing")}>
+            {/* <TouchableOpacity onPress={() => navigation.navigate("Landing")}>
                 <Text>Landing</Text>
-            </TouchableOpacity>  
+            </TouchableOpacity>   */}
             <TouchableOpacity onPress={signOut}>
                 <Text>Sign Out</Text>
             </TouchableOpacity>  
