@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const PASSWORD_REGEX =
-  /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^*,.?])[A-Za-z\d!@#$%^*,.?]{8,}$/;
+  /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*,.?])[A-Za-z\d!@#$%^&*,.?]{8,}$/;
 
 const userSchema = new mongoose.Schema(
   {
@@ -78,7 +78,7 @@ const userSchema = new mongoose.Schema(
 
 userSchema.index({ roles: 1 });
 userSchema.index({ email: 1 }, { unique: true });
-userSchema.index({ username: 1 }, { unique: true });
+userSchema.index({ username: 1 });
 userSchema.index({ createdAt: -1 });
 
 userSchema.index({ "google.googleUID": 1 }, { unique: true, sparse: true });

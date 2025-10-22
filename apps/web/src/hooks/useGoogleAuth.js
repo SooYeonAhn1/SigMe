@@ -1,3 +1,5 @@
+// apps/web/src/hooks/useGoogleAuth.js
+
 import { useState } from "react";
 
 const AUTH_API_BASE_URL = process.env.REACT_APP_API_BASE_URL;

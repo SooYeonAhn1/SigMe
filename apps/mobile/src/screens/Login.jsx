@@ -1,11 +1,18 @@
+// apps/mobile/src/screens/Login.jsx
+
 import { useState } from 'react';
-import { View, Text, Button, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, Button, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
 import { useGoogleAuth } from '../hooks/useGoogleAuth';
+// import { useLocalAuth } from '../hooks/useLocalAuth';
 
 export default function Login({navigation}) {
     const [ isLoading, setIsLoading ] = useState(false);
     const { promptAsync, request } = useGoogleAuth();
     
+    const goToRegister = () => {
+        navigation.navigate("Register");
+    };
+
     const handleGoogleSignIn = async () => {
         if (!request) {
             console.warn("Google Auth configuration not ready.");
@@ -32,14 +39,18 @@ export default function Login({navigation}) {
     // console.log('Generated Redirect URI:', redirectUri);
 
     return (
-        <Button 
-           title={isLoading ? "Loading..." : "Sign in with Google"}
-            onPress={handleGoogleSignIn}
-            // disabled={isDisabled}
-            style={styles.container} 
-        >
-            {isLoading && <ActivityIndicator size="small" color="#fff" />}
-        </Button>
+        <View style={styles.container}>
+            <Button 
+            title={isLoading ? "Loading..." : "Sign in with Google"}
+                onPress={handleGoogleSignIn}
+                style={styles.container} 
+            >
+                {isLoading && <ActivityIndicator size="small" color="#fff" />}
+            </Button>
+            <TouchableOpacity onPress={goToRegister}>
+                <Text>Need to register?</Text>
+            </TouchableOpacity>  
+        </View>
     );
 }
 

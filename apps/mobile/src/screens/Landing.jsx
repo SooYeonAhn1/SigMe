@@ -17,7 +17,7 @@ export default function Landing({ navigation }) {
                 navigation.navigate("Dashboard");
             } else {
                 console.log("No user logged in, redirecting to Login.");
-                navigation.navigate("Login");
+                if (process.env.NODE_ENV !== 'development') navigation.navigate("Login");
             }
         }
     }, [isLoading, user, navigation]);
@@ -35,7 +35,7 @@ export default function Landing({ navigation }) {
             {console.log("landing component rendered")}
             {/* {checkLoginAndRedirect()} */}
             <TouchableOpacity onPress={goToRegister}>
-                <Text>Click to register</Text>
+                <Text>Register</Text>
             </TouchableOpacity>
             
             {/* The following buttons are active when developing = true.
