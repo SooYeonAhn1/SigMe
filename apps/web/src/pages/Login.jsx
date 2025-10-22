@@ -22,16 +22,17 @@ export default function LoginPage() {
   return (
     <div>
       <h1>Sign In to SigMe</h1>
-      <form onSubmit={handleSubmit}>
+      {/* <form onSubmit={handleSubmit}>
         <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required/>
         <input type="password" id="password"value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required/>
         <button type="submit">Register</button>
-      </form>
+      </form> */}
       {loading && <p>Loading...</p>}
       {googleError && <p>{googleError}</p>}
       {!loading && (
         <GoogleLogin onSuccess={onSuccess} onError={handleGoogleError} />
       )}
+      <button onClick={() => navigate(ROUTES.REGISTER)}>Need to register?</button>
     </div>
   );
 }

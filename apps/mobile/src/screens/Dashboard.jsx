@@ -14,9 +14,11 @@ export default function Dashboard({ navigation }) {
         await signOut();
         navigation.reset({ index: 0, routes: [{ name: 'Login' }] });
     }
+
     console.log("Dashboard screen - isLoading: ", isLoading, " user: ", user);
 
     if (isLoading || !user) {
+        console.log("you reached to Dashboard.jsx:line 21");
         return (
             <View>
                 <Text>Signing out...</Text>

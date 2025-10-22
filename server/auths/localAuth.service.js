@@ -19,6 +19,8 @@ async function registerController(req, res) {
   // Check if user already exists
   const existingUser = await UserDB.findOne({ email });
   if (existingUser) {
+    console.log("existingUser:", existingUser);
+    console.log("localAuth.service.js: email already taken(local)");
     return res.status(409).json({ message: "Email already taken" });
   }
 
@@ -40,7 +42,7 @@ async function registerController(req, res) {
 
   const accessToken = jwtUtils.generateAccessToken(newUser._id);
   const refreshToken = jwtUtils.generateRefreshToken(newUser._id); 
-
+  console.log("generated token");
   return res.status(201).json({ 
       message: "User registered successfully",
       user: { email: newUser.email, username: newUser.username },

@@ -26,7 +26,7 @@ export default function Register() {
             await handleLocalSuccess(email, password);
             navigate(ROUTES.DASHBOARD);
         } catch (error) {
-            if (error) {
+            if (error.message) {
                 if (error.message.includes("already registered")) {
                     navigate(ROUTES.DASHBOARD);
                     return;
@@ -50,6 +50,7 @@ export default function Register() {
                 <input type="password" id="password"value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required/>
                 <button type="submit">Register</button>
             </form>
+            <button onClick={() => navigate(ROUTES.LOGIN)}>Already have an account?</button>
         </div>
     );
 }
