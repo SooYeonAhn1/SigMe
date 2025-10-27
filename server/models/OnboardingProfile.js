@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
 
-const onboardingProfileSchema = new Schema(
+const onboardingProfileSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
+      unique: true
     },
     selectedSymptoms: [
       {
