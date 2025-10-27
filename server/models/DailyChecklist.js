@@ -20,7 +20,7 @@ const dailyTaskSchema = new mongoose.Schema({
   }
 }, { _id: true }); 
 
-const dailyChecklistSchema = new Schema({
+const dailyChecklistSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
