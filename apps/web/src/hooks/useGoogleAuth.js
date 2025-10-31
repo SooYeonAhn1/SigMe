@@ -1,10 +1,12 @@
 // apps/web/src/hooks/useGoogleAuth.js
 
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useAuth } from './AuthContext';
 
 const AUTH_API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 export function useGoogleAuth() {
+  const { login } = useAuth();
   const [googleError, setGoogleError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -32,10 +34,15 @@ export function useGoogleAuth() {
       const data = await response.json();
 
       // Save JWT token & user info from server
-      localStorage.setItem("accessToken", data.accessToken);
-      localStorage.setItem("refreshToken", data.refreshToken);
-      localStorage.setItem("user", JSON.stringify(data.user));
-
+      // localStorage.setItem("accessToken", data.accessToken);
+      // localStorage.setItem("refreshToken", data.refreshToken);
+      // localStorage.setItem("user", JSON.stringify(data.user));
+      
+      await login(
+        data.accessToken, 
+        data.refreshToken, 
+        data.user
+      );
       return data;
     } catch (error) {
       setGoogleError(error.message);
@@ -54,6 +61,10 @@ export function useGoogleAuth() {
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("user");
   };
+
+  // useEffect(() => {
+  //   handleGoogleSuccess();
+  // }, [setUserData]);
 
   return {
     handleGoogleSuccess,

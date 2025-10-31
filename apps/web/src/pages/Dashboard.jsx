@@ -16,6 +16,7 @@ export default function Dashboard() {
             <h1>Welcome to your dashboard.</h1>
             {console.log("Dashboard component rendered")}
             <button onClick={() => navigate(ROUTES.SETTINGS)}>settings</button>
+            <button onClick={() => navigate(ROUTES.CHECKLIST)}>checklist</button>
             {/* <button onClick={() => navigate(ROUTES.HOME)}>home</button> */}
         </div>
     );

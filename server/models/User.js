@@ -64,7 +64,7 @@ const userSchema = new mongoose.Schema(
         "English letters, Korean letters, digits, apostrophes ('), and dashes (-) only allowed",
       ],
       minlength: 3,
-      maxlength: 8,
+      maxlength: 20,
     },
 
     roles: {
