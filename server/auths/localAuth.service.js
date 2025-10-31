@@ -1,3 +1,5 @@
+// apps/server/auths/localAuth.service.js
+
 // for raw registration where user adds username/password directly
 
 const jwtUtils = require("./jwt");
@@ -14,13 +16,9 @@ async function registerController(req, res) {
     return res.status(400).json({ message: "Username and password are required" });
   }
 
-  console.log('Registering user with email:', email);
-  console.log('Password received (not logged for security reasons)');
   // Check if user already exists
   const existingUser = await UserDB.findOne({ email });
   if (existingUser) {
-    console.log("existingUser:", existingUser);
-    console.log("localAuth.service.js: email already taken(local)");
     return res.status(409).json({ message: "Email already taken" });
   }
 
@@ -41,13 +39,13 @@ async function registerController(req, res) {
   await newUser.save();
 
   const accessToken = jwtUtils.generateAccessToken(newUser._id);
-  const refreshToken = jwtUtils.generateRefreshToken(newUser._id); 
+  const refreshToken = jwtUtils.generateRefreshToken(newUser._id);
   console.log("generated token");
-  return res.status(201).json({ 
-      message: "User registered successfully",
-      user: { email: newUser.email, username: newUser.username },
-      accessToken: accessToken,
-      refreshToken: refreshToken
+  return res.status(201).json({
+    message: "User registered successfully",
+    user: { email: newUser.email, username: newUser.username },
+    accessToken: accessToken,
+    refreshToken: refreshToken
   });
 }
 

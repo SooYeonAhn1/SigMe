@@ -1,12 +1,14 @@
 // apps/web/src/hooks/useLocalAuth.js
 
-import { useState } from "react";
+import React, { useState } from "react";
+import { AuthContext } from './AuthContext';
 
 const AUTH_API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 export function useLocalAuth() {
   const [localError, setLocalError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const { setUserData } = React.useContext(AuthContext);
 
   const handleLocalSuccess = async (email, password) => {
     const inputData = {
@@ -40,6 +42,7 @@ export function useLocalAuth() {
       localStorage.setItem("user", JSON.stringify(data.user));
 
       console.log("successfully received data: ");
+      // setUserData(data.user);
       return data;
     } catch (error) {
       setLocalError(error.message);

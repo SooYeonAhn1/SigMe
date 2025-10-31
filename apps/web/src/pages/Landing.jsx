@@ -1,5 +1,7 @@
+// apps/web/src/pages/Landing.jsx
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../constants/routes";
+import useAuth from "../hooks/AuthContext";
 
 export default function Landings() {
   const navigate = useNavigate();

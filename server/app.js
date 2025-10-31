@@ -5,6 +5,7 @@ const cors = require("cors");
 const mongoose = require("mongoose"); 
 const { googleLoginController } = require("./auths/googleAuth.service");
 const { registerController } = require("./auths/localAuth.service");
+const { dailyChecklistController } = require("./auths/checklist.service");
 
 const path = require('path'); 
 
@@ -40,13 +41,10 @@ app.get("/", (req, res) => {
   });
 });
 
-console.log('registerController type:', typeof registerController);
 app.post('/auth/google', googleLoginController);
 app.post('/api/register', registerController);
-console.log(
-  "Succesfully did either of these: Registered routes: POST /auth/google -> googleLoginController, POST /api/register -> registerController"
-)
-
+app.post('/api/checklist', dailyChecklistController);
+console.log(`post to /api/checklist sent at ${PORT}`);
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is running on port ${PORT}`);

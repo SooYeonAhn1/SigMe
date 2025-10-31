@@ -1,3 +1,5 @@
+// apps/mobile/src/hooks/useLocalAuth.jsx
+
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { registerUser } from '../services/authApi';
@@ -21,6 +23,7 @@ export const useLocalAuth = () => {
       // registerUser calls the server, which returns { user, accessToken, refreshToken }
       const data = await registerUser(email, password);
       
+      setUser(data.user);
       return data;
     } catch (e) {
       console.error('useLocalAuth.jsx Registration failed:', e);

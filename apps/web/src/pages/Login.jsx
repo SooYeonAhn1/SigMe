@@ -1,17 +1,20 @@
 import { GoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
-import { useGoogleAuth } from "../hooks/useGoogleAuth";
-import { useLocalAuth } from '../hooks/useLocalAuth';
 import { ROUTES } from "../constants/routes";
+
+import { useGoogleAuth } from "../hooks/useGoogleAuth";
+import { useLocalAuth } from "../hooks/useLocalAuth";
+import { useAuth } from "../hooks/AuthContext";
 
 export default function LoginPage() {
   const { handleGoogleSuccess, handleGoogleError, googleError, loading } =
     useGoogleAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const onSuccess = async (credentialResponse) => {
     try {
-      await handleGoogleSuccess(credentialResponse);
+      const response = await handleGoogleSuccess(credentialResponse);
       navigate(ROUTES.DASHBOARD);
     } catch (error) {
       console.error("Sign-in failed:", error);
