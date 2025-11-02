@@ -35,7 +35,12 @@ export default function LoginPage() {
       {!loading && (
         <GoogleLogin onSuccess={onSuccess} onError={handleGoogleError} />
       )}
-      <button onClick={() => navigate(ROUTES.REGISTER)}>Need to register?</button>
+      <button onClick={() => navigate(ROUTES.REGISTER)}>
+        Need to register?
+      </button>
+      <button onClick={() => navigate(ROUTES.LANDING)}>
+        Go back to landing page...
+      </button>
     </div>
   );
 }
