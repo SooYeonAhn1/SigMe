@@ -1,14 +1,14 @@
 // apps/web/src/hooks/useGoogleAuth.js
 
 import React, { useEffect, useState } from "react";
-import { useAuth } from './AuthContext';
+import { useAuth } from "./AuthContext";
 
 const AUTH_API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 export function useGoogleAuth() {
   const { login } = useAuth();
   const [googleError, setGoogleError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [googleLoading, setLoading] = useState(false);
 
   const handleGoogleSuccess = async (credentialResponse) => {
     setLoading(true);
@@ -37,12 +37,8 @@ export function useGoogleAuth() {
       // localStorage.setItem("accessToken", data.accessToken);
       // localStorage.setItem("refreshToken", data.refreshToken);
       // localStorage.setItem("user", JSON.stringify(data.user));
-      
-      await login(
-        data.accessToken, 
-        data.refreshToken, 
-        data.user
-      );
+
+      await login(data.accessToken, data.refreshToken, data.user);
       return data;
     } catch (error) {
       setGoogleError(error.message);
@@ -71,6 +67,6 @@ export function useGoogleAuth() {
     handleGoogleError,
     googleSignOut,
     googleError,
-    loading,
+    loading: googleLoading,
   };
 }

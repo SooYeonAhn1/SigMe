@@ -5,16 +5,17 @@ const DailyChecklistDB = require("../models/DailyChecklist");
 
 async function dailyChecklistController(req, res) {
   try {
-    const { userId, dailyTasks } = req.body;
+    const { dailyTasks } = req.body;
+    const userId = req.userId;
     if (!Array.isArray(dailyTasks)) {
-      return res.status(400).json({ message: 'No items data received.' });
+      return res.status(400).json({ message: "No items data received." });
     }
     console.log("server/auths/checklist.service display userId:", userId);
     const newBackend = dailyTasks.map((task) => {
       return {
         taskId: task.id,
         description: task.text,
-        isCompleted: task.checked
+        isCompleted: task.checked,
       };
     });
 
@@ -23,7 +24,7 @@ async function dailyChecklistController(req, res) {
     const newDailyChecklist = new DailyChecklistDB({
       userId: userId,
       date: date,
-      tasks: newBackend
+      tasks: newBackend,
     });
 
     const savedChecklist = await newDailyChecklist.save();
@@ -35,18 +36,18 @@ async function dailyChecklistController(req, res) {
     // same date/id combo exists
     if (error.code === 11000) {
       return res.status(409).json({
-        message: 'A checklist for this user and date already exists.'
+        message: "A checklist for this user and date already exists.",
       });
     }
 
     // other validation errors
-    if (error.name === 'ValidationError') {
+    if (error.name === "ValidationError") {
       return res.status(400).json({
-        message: 'Validation failed.',
-        error: error.message
+        message: "Validation failed.",
+        error: error.message,
       });
     }
-    res.status(500).json({ message: 'Server error while saving.' });
+    res.status(500).json({ message: "Server error while saving." });
   }
 }
 

@@ -51,8 +51,7 @@ async function registerController(req, res) {
 
     await newUser.save();
 
-    const accessToken = jwtUtils.generateAccessToken(newUser._id);
-    const refreshToken = jwtUtils.generateRefreshToken(newUser._id);
+    const { accessToken, refreshToken } = jwtUtils.signTokens(newUser);
     console.log("generated token");
     return res.status(201).json({
       message: "User registered successfully",
@@ -69,6 +68,55 @@ async function registerController(req, res) {
   }
 }
 
+const loginController = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ message: "Email and password are required" });
+    }
+
+    const user = await UserDB.findOne({ email }).select("+password");
+
+    if (!user) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    if (user.authType !== "local") {
+      return res.status(400).json({
+        message:
+          "This account uses Google sign-in. Please use Google to log in.",
+      });
+    }
+
+    const isValid = await bcrypt.compare(password, user.password);
+
+    if (!isValid) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    const { accessToken, refreshToken } = jwtUtils.signTokens(user);
+
+    return res.status(200).json({
+      user: {
+        id: user._id,
+        email: user.email,
+        username: user.username,
+        roles: user.roles,
+        authType: user.authType,
+      },
+      accessToken,
+      refreshToken,
+    });
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 module.exports = {
   registerController,
+  loginController,
 };

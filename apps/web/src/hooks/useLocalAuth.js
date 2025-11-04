@@ -7,7 +7,7 @@ const AUTH_API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 export function useLocalAuth() {
   const [localError, setLocalError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [localLoading, setLoading] = useState(false);
   const { login } = React.useContext(AuthContext);
 
   const handleLocalSuccess = async (email, password) => {
@@ -59,6 +59,38 @@ export function useLocalAuth() {
     }
   };
 
+  const handleLocalLogin = async (email, password) => {
+    setLoading(true);
+    setLocalError(null);
+
+    try {
+      const response = await fetch(`${AUTH_API_BASE_URL}/api/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      console.log("status:", response.status);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Login failed");
+      }
+
+      const data = await response.json();
+      await login(data.accessToken, data.refreshToken, data.user);
+
+      return data;
+    } catch (error) {
+      setLocalError(error.message);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleLocalError = () => {
     setLocalError("Local registration/sign-in failed");
   };
@@ -73,9 +105,10 @@ export function useLocalAuth() {
 
   return {
     handleLocalSuccess,
+    handleLocalLogin,
     handleLocalError,
     localSignOut,
     localError,
-    loading,
+    loading: localLoading,
   };
 }

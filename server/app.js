@@ -4,8 +4,13 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const { googleLoginController } = require("./auths/googleAuth.service");
-const { registerController } = require("./auths/localAuth.service");
+const {
+  registerController,
+  loginController,
+} = require("./auths/localAuth.service");
+const { authenticateToken } = require("./middleware/auth");
 const { dailyChecklistController } = require("./auths/checklist.service");
+const { deleteAccountController } = require("./auths/userAccount.service");
 
 const path = require("path");
 
@@ -52,7 +57,9 @@ app.get("/", (req, res) => {
 
 app.post("/auth/google", googleLoginController);
 app.post("/api/register", registerController);
-app.post("/api/checklist", dailyChecklistController);
+app.post("/api/login", loginController);
+app.post("/api/checklist", authenticateToken, dailyChecklistController);
+app.delete("/api/users/delete", authenticateToken, deleteAccountController);
 console.log(`post to /api/checklist sent at ${PORT}`);
 
 app.listen(PORT, "0.0.0.0", () => {

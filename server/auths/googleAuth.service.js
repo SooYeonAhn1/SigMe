@@ -62,7 +62,7 @@ async function googleLoginController(req, res) {
     }
   } else {
     // Ensure a unique username is created (Simple solution: use part of email)
-    const usernameBase = googleUser.email.split("@")[0]
+    const usernameBase = googleUser.email.split("@")[0];
 
     user = new UserDB({
       email: googleUser.email,
@@ -84,6 +84,7 @@ async function googleLoginController(req, res) {
       name: user.name,
       username: user.username,
       roles: user.roles,
+      authType: user.authType,
     },
     accessToken,
     refreshToken,
