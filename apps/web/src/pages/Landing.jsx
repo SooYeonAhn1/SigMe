@@ -1,17 +1,27 @@
 // apps/web/src/pages/Landing.jsx
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../constants/routes";
-import useAuth from "../hooks/AuthContext";
+import { useAuth } from "../hooks/AuthContext";
 
 export default function Landings() {
   const navigate = useNavigate();
   const developing = true;
+  const { userData, logout } = useAuth();
+
+  const handleLogout = async () => {
+    console.log("handleLogout called");
+    await logout();
+  };
+
   return (
     <div>
       <h1>Welcome to SigMe. You landed to our homepage</h1>
       {console.log("landing component rendered")}
       <button onClick={() => navigate(ROUTES.REGISTER)}>
         Click to register
+      </button>
+      <button onClick={userData ? handleLogout : () => navigate(ROUTES.LOGIN)}>
+        {userData ? "Logout" : "Log in"}
       </button>
 
       {/* The following buttons are active when developing = true.
@@ -20,9 +30,7 @@ export default function Landings() {
 		They are disabled when developing = false.
 		They will be removed in the final version.    
 	  */}
-      <button disabled={!developing} onClick={() => navigate(ROUTES.LOGIN)}>
-        Log in
-      </button>
+
       <button
         disabled={!developing}
         onClick={() => navigate(ROUTES.DAILY_LOGS)}

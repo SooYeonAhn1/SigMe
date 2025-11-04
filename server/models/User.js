@@ -1,8 +1,5 @@
 const mongoose = require("mongoose");
 
-const PASSWORD_REGEX =
-  /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*,.?])[A-Za-z\d!@#$%^&*,.?]{8,}$/;
-
 const userSchema = new mongoose.Schema(
   {
     authType: {
@@ -23,13 +20,7 @@ const userSchema = new mongoose.Schema(
       required: function () {
         return this.authType === "local";
       },
-      minlength: 8,
       select: false,
-      validate: {
-        validator: (v) => PASSWORD_REGEX.test(v),
-        message:
-          "Password must be at least 8 characters and include at least one uppercase letter, one lowercase letter, one digit, and one special character from !@#$%^*,.?",
-      },
     },
     google: {
       googleUID: {

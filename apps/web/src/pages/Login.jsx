@@ -1,18 +1,29 @@
 import { GoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { ROUTES } from "../constants/routes";
-
 import { useGoogleAuth } from "../hooks/useGoogleAuth";
 import { useLocalAuth } from "../hooks/useLocalAuth";
-import { useAuth } from "../hooks/AuthContext";
 
 export default function LoginPage() {
-  const { handleGoogleSuccess, handleGoogleError, googleError, loading } =
-    useGoogleAuth();
-  const { login } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const {
+    handleGoogleSuccess,
+    handleGoogleError,
+    googleError,
+    loading: googleLoading,
+  } = useGoogleAuth();
+  const {
+    handleLocalLogin,
+    localError,
+    loading: localLoading,
+  } = useLocalAuth();
+
   const navigate = useNavigate();
 
-  const onSuccess = async (credentialResponse) => {
+  const onGoogleSuccess = async (credentialResponse) => {
     try {
       const response = await handleGoogleSuccess(credentialResponse);
       navigate(ROUTES.DASHBOARD);
@@ -22,20 +33,57 @@ export default function LoginPage() {
     }
   };
 
+  // Local login
+  const handleLocalSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await handleLocalLogin(email, password);
+      navigate(ROUTES.DASHBOARD);
+    } catch (error) {
+      console.error("Local login failed:", error);
+      alert("Login failed. Please check your credentials.");
+    }
+  };
+
   return (
     <div>
       <h1>Sign In to SigMe</h1>
-      {/* <form onSubmit={handleSubmit}>
-        <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required/>
-        <input type="password" id="password"value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required/>
-        <button type="submit">Register</button>
-      </form> */}
-      {loading && <p>Loading...</p>}
-      {googleError && <p>{googleError}</p>}
-      {!loading && (
-        <GoogleLogin onSuccess={onSuccess} onError={handleGoogleError} />
+      <form onSubmit={handleLocalSubmit}>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+          required
+        />
+        <input
+          type={showPassword ? "text" : "password"}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+          required
+        />
+        <button type="button" onClick={() => setShowPassword(!showPassword)}>
+          {showPassword ? "Hide" : "Show"}
+        </button>
+        <button type="submit" disabled={localLoading}>
+          {localLoading ? "Logging in..." : "Login"}
+        </button>
+      </form>
+      {localError && <p style={{ color: "red" }}>{localError}</p>}
+
+      <br />
+      {googleLoading && <p>Loading...</p>}
+      {googleError && <p style={{ color: "red" }}>{googleError}</p>}
+      {!googleLoading && (
+        <GoogleLogin onSuccess={onGoogleSuccess} onError={handleGoogleError} />
       )}
-      <button onClick={() => navigate(ROUTES.REGISTER)}>Need to register?</button>
+      <button onClick={() => navigate(ROUTES.REGISTER)}>
+        Need to register?
+      </button>
+      <button onClick={() => navigate(ROUTES.LANDING)}>
+        Go back to landing page...
+      </button>
     </div>
   );
 }
