@@ -15,7 +15,7 @@ export default function Landings() {
 
   return (
     <div>
-      <h1>Welcome to SigMe. You landed to our homepage</h1>
+      <h1>Welcome to SigMe. You landed to our homepage!</h1>
       {console.log("landing component rendered")}
       <button onClick={() => navigate(ROUTES.REGISTER)}>
         Click to register

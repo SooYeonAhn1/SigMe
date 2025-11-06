@@ -13,7 +13,9 @@ export default function Settings({ navigation }) {
     const goToReport = () => {
         navigation.navigate("Report");
     };
-
+    const goToDeleteAccount = () => {
+        navigation.navigate("Delete Account");
+    };
     return (
         <View style={styles.container}>
             <Text>You can manage your settings here</Text>
@@ -29,6 +31,9 @@ export default function Settings({ navigation }) {
             </TouchableOpacity>
             <TouchableOpacity onPress={goToChecklist}>
                 <Text>Update your checklist</Text>
+            </TouchableOpacity>  
+            <TouchableOpacity onPress={goToDeleteAccount}>
+                <Text style={{ color : "red"}}>Delete Account</Text>
             </TouchableOpacity>  
         </View>
     );

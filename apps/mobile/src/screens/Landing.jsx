@@ -6,7 +6,7 @@ import {
   Text,
   ActivityIndicator,
   TouchableOpacity,
-  StyleSheet,
+  StyleSheet
 } from "react-native";
 import { useAuth } from "../hooks/AuthContext";
 
@@ -45,7 +45,7 @@ export default function Landing({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text>Welcome to SigMe. You landed to our homepage</Text>
+      <Text>Welcome to SigMe. You landed to our homepage!</Text>
       {console.log("landing component rendered")}
       {/* {checkLoginAndRedirect()} */}
       <TouchableOpacity onPress={goToRegister}>
@@ -106,6 +106,16 @@ export default function Landing({ navigation }) {
       >
         <Text>Dashboard</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        disabled={!developing}
+        onPress={() => {
+          navigation.navigate("Delete Account");
+        }}
+      >
+        <Text>Delete Account</Text>
+      </TouchableOpacity>
+
       <TouchableOpacity
         disabled={!developing}
         onPress={user ? handleSignOut : () => navigation.navigate("Login")}
