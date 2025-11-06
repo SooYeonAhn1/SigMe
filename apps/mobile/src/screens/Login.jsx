@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   StyleSheet,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { useGoogleAuth } from "../hooks/useGoogleAuth";
 // import { useLocalAuth } from '../hooks/useLocalAuth';
@@ -48,13 +49,13 @@ export default function Login({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Button
+      <Pressable
         title={isLoading ? "Loading..." : "Sign in with Google"}
         onPress={handleGoogleSignIn}
         style={styles.container}
       >
         {isLoading && <ActivityIndicator size="small" color="#fff" />}
-      </Button>
+      </Pressable>
       <TouchableOpacity onPress={goToRegister}>
         <Text>Need to register?</Text>
       </TouchableOpacity>

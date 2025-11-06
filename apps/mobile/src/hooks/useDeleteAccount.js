@@ -10,6 +10,12 @@ import { AuthContext } from "./AuthContext";
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
+WebBrowser.maybeCompleteAuthSession();
+
+const ACCESS_TOKEN_KEY = "userAccessToken";
+const REFRESH_TOKEN_KEY = "userRefreshToken";
+const USER_DATA_KEY = "userData";
+
 export function useDeleteAccount() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -20,7 +26,7 @@ export function useDeleteAccount() {
     setError(null);
 
     try {
-      const token = SecureStore.getItem("userAccessToken");
+      const token = SecureStore.getItem(ACCESS_TOKEN_KEY);
 
       if (!token) {
         throw new Error("Not authenticated");
@@ -43,6 +49,7 @@ export function useDeleteAccount() {
       }
 
       await logout();
+      SecureStore.deleteItemAsync(ACCESS_TOKEN_KEY);
       return true;
     } catch (err) {
       setError(err.message);

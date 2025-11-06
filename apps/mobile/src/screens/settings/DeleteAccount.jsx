@@ -1,5 +1,7 @@
+// apps/mobile/src/screens/DeleteAccount.jsx
+
 import { useState, useEffect, useContext } from "react";
-import { View, Text, TextInput, Item, Button, WarningList, StyleSheet, useColorScheme } from "react-native";
+import { View, Text, TextInput, Pressable, StyleSheet } from "react-native";
 // import { useNavigate } from "react-router-dom";
 import { useDeleteAccount } from "../../hooks/useDeleteAccount";
 import { useAuth } from "../../hooks/AuthContext";
@@ -29,6 +31,28 @@ export default function DeleteAccont({ navigation }) {
     }
   };
 
+  // const WebDevInput = (
+  //   <form onSubmit={handleSubmitDev}>
+  //     <input
+  //       type="email"
+  //       id="email"
+  //       value={email}
+  //       onChange={(e) => setEmail(e.target.value)}
+  //       placeholder="Email"
+  //       required
+  //     />
+  //     <input
+  //       type="password"
+  //       id="password"
+  //       value={password}
+  //       onChange={(e) => setPassword(e.target.value)}
+  //       placeholder="Password"
+  //       required
+  //     />
+  //     <button type="submit">Register</button>
+  //   </form>
+  // );
+
   return (
     <View style={styles.container}>
       <Text>Delete Account. Are you sure you want to delete your account?</Text>
@@ -38,26 +62,27 @@ export default function DeleteAccont({ navigation }) {
       </Text>
       <Text>
         • This action cannot be undone
-      </Text>      
+      </Text>
       {authType === "local" ? (
         <>
           <Text>Enter your password to confirm</Text>
           <TextInput type={showPassword ? "text" : "password"} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-          <Button title="deleteAccount" onPress={() => setShowPassword(!showPassword)}>
+          <Pressable title="deleteAccount" onPress={() => setShowPassword(!showPassword)}>
             {showPassword ? "Hide" : "Show"}
-          </Button>
+          </Pressable>
         </>
       ) : (
         <Text>You are signed in with Google. Click delete to proceed.</Text>
       )}
       {error && <Text style={{ color: "red" }}>{error}</Text>}
-      <Button
+      <Pressable
         onPress={handleDelete}
         disabled={loading || (authType === "local" && !password)}
+        style={{color:"red"}}
       >
         {loading ? "Deleting..." : "Delete Account"}
-      </Button>
-      <Button onPress={() => navigation.navigate("Setting")}>Back</Button>
+      </Pressable>
+      <Pressable onPress={() => navigation.navigate("Settings")}>Back</Pressable>
     </View>
   );
 };

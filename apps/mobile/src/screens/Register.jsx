@@ -1,4 +1,6 @@
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Button } from "react-native";
+// apps/mobile/src/screens/Register.jsx
+
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Pressable } from "react-native";
 import { useState } from 'react';
 import { useLocalAuth } from '../hooks/useLocalAuth';
 import { Platform } from 'react-native'; // included for development purposes
@@ -72,7 +74,7 @@ export default function Register({ navigation }) {
                 textContentType="password"
             />
             {/* Submission Button */}
-            <Button 
+            <Pressable 
                 title="Register"
                 onPress={handleSubmit} // Triggers handleSubmit without event object
             />

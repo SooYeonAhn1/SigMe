@@ -62,9 +62,9 @@ export const useGoogleAuth = () => {
         try {
           const data = await authGoogleUserWithBackend(idToken);
 
-          console.log("Backend data:", data);
-          console.log("User object:", data.user);
-          console.log("User object type:", typeof data.user);
+          // console.log("Backend data:", data);
+          // console.log("User object:", data.user);
+          // console.log("User object type:", typeof data.user);
 
           if (Platform.OS !== "web") {
             await SecureStore.setItemAsync(ACCESS_TOKEN_KEY, data.accessToken);
