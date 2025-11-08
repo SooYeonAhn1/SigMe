@@ -1,23 +1,23 @@
-// apps\mobile\src\screens\Dashboard.jsx
+// apps/mobile/src/screens/Dashboard.jsx
 
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useAuth } from "../hooks/AuthContext";
 // import { usNavigate } from '@react-navigation/native';
 
 export default function Dashboard({ navigation }) {
-  const developing = true;
+  const developing = process.env.NODE_ENV === 'development';
   const goToSettings = () => {
     navigation.navigate("Settings");
   };
 
-  const { user, isLoading, signOut } = useAuth();
+  const { userData, isLoading, logout } = useAuth();
 
   const handleSignOut = async () => {
-    await signOut();
+    await logout();
     navigation.reset({ index: 0, routes: [{ name: "Login" }] });
   };
 
-  console.log("Dashboard screen - isLoading: ", isLoading, " user: ", user);
+  console.log("Dashboard screen - isLoading: ", isLoading, " userData: ", userData);
 
   if (isLoading) {
     {
@@ -30,7 +30,7 @@ export default function Dashboard({ navigation }) {
     );
   }
 
-  if (!user) {
+  if (!developing && !userData) {
     {
       console.log("User is not not logged in");
     }
@@ -41,9 +41,9 @@ export default function Dashboard({ navigation }) {
   return (
     <View>
       {console.log("dashboard component rendered")}
-      {console.log("isLoading: ", isLoading, " user: ", user)}
+      {console.log("isLoading: ", isLoading, " userData: ", userData)}
       <Text>Dashboard</Text>
-      <Text>Hi, {user.username}</Text>
+      <Text>Hi, {userData ? userData.username : <Text>SigMe</Text>}</Text>
       <TouchableOpacity onPress={goToSettings}>
         <Text>Go to settings</Text>
       </TouchableOpacity>

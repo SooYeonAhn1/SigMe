@@ -11,7 +11,7 @@ import {
 import { useAuth } from "../hooks/AuthContext";
 
 export default function Landing({ navigation }) {
-  const developing = true; //set to false when deploying the app
+  const developing = process.env.NODE_ENV === "development"; //set to false when deploying the app
   const { user, isLoading, signOut } = useAuth();
 
   const goToRegister = () => {
@@ -30,7 +30,7 @@ export default function Landing({ navigation }) {
         navigation.navigate("Dashboard");
       } else {
         console.log("No user logged in, redirecting to Login.");
-        if (process.env.NODE_ENV !== "development")
+        if (!developing)
           navigation.navigate("Login");
       }
     }
@@ -66,6 +66,7 @@ export default function Landing({ navigation }) {
       >
         <Text>Daily Logs</Text>
       </TouchableOpacity>
+
       <TouchableOpacity
         disabled={!developing}
         onPress={() => {
@@ -74,6 +75,7 @@ export default function Landing({ navigation }) {
       >
         <Text>Settings</Text>
       </TouchableOpacity>
+
       <TouchableOpacity
         disabled={!developing}
         onPress={() => {
@@ -82,6 +84,7 @@ export default function Landing({ navigation }) {
       >
         <Text>Report</Text>
       </TouchableOpacity>
+
       <TouchableOpacity
         disabled={!developing}
         onPress={() => {
@@ -90,6 +93,7 @@ export default function Landing({ navigation }) {
       >
         <Text>Medication Information</Text>
       </TouchableOpacity>
+
       <TouchableOpacity
         disabled={!developing}
         onPress={() => {
@@ -98,6 +102,7 @@ export default function Landing({ navigation }) {
       >
         <Text>Checklist</Text>
       </TouchableOpacity>
+      
       <TouchableOpacity
         disabled={!developing}
         onPress={() => {

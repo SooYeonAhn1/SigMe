@@ -2,28 +2,20 @@
 
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
-import * as SecureStore from "expo-secure-store";
 import * as AuthSession from "expo-auth-session";
 
-import React, { useEffect, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { Platform } from "react-native";
 
-import { authGoogleUserWithBackend } from "../services/authApi";
-import { AuthContext } from "./AuthContext";
+import { authGoogleLogin } from "../services/authApi";
+import { useAuth } from "./AuthContext";
 
 WebBrowser.maybeCompleteAuthSession();
 
-const ACCESS_TOKEN_KEY = "userAccessToken";
-const REFRESH_TOKEN_KEY = "userRefreshToken";
-const USER_DATA_KEY = "userData";
-
 export const useGoogleAuth = () => {
-  const { setUser } = React.useContext(AuthContext);
+  const { login } = useAuth();
   const navigation = useNavigation();
   const [authSuccess, setAuthSuccess] = useState(false);
-
   const WEB_REDIRECT_URI =
     process.env.EXPO_PUBLIC_GOOGLE_API_BASE_URL || "http://127.0.0.1:5000";
 
@@ -31,13 +23,6 @@ export const useGoogleAuth = () => {
     useProxy: true,
     web: process.env.NODE_ENV === "development" ? WEB_REDIRECT_URI : undefined,
   });
-
-  // console.log("expoClientId: ", process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID);
-  // console.log("iosClientId: ", process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID);
-  // console.log("androidClientId: ", process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID);
-  // console.log("webClientId: ", process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID);
-  // console.log("redirectUri: ", redirectUri);
-  // console.log("directory: ", __dirname);
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
@@ -60,24 +45,9 @@ export const useGoogleAuth = () => {
           return;
         }
         try {
-          const data = await authGoogleUserWithBackend(idToken);
-
-          // console.log("Backend data:", data);
-          // console.log("User object:", data.user);
-          // console.log("User object type:", typeof data.user);
-
-          if (Platform.OS !== "web") {
-            await SecureStore.setItemAsync(ACCESS_TOKEN_KEY, data.accessToken);
-            await SecureStore.setItemAsync(
-              REFRESH_TOKEN_KEY,
-              data.refreshToken
-            );
-          }
-          // await SecureStore.setItemAsync(ACCESS_TOKEN_KEY, data.accessToken);
-          // await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, data.refreshToken);
-          await AsyncStorage.setItem(USER_DATA_KEY, JSON.stringify(data.user));
-
-          setUser(data.user);
+          const data = await authGoogleLogin(idToken);
+          await login(data.accessToken, data.refreshToken, data.user);
+          console.log("google login worked");
           setAuthSuccess(true);
         } catch (error) {
           console.error("Error during backend authentication: ", error);
@@ -86,7 +56,7 @@ export const useGoogleAuth = () => {
       }
     };
     handleLogin();
-  }, [response, setUser]);
+  }, [response]);
 
   useEffect(() => {
     if (authSuccess) {

@@ -1,6 +1,6 @@
 // apps/web/src/hooks/useLocalAuth.js
 
-import React, { useState } from "react";
+import { useState, useContext } from "react";
 import { AuthContext } from "./AuthContext";
 
 const AUTH_API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -8,7 +8,7 @@ const AUTH_API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 export function useLocalAuth() {
   const [localError, setLocalError] = useState(null);
   const [localLoading, setLoading] = useState(false);
-  const { login } = React.useContext(AuthContext);
+  const { login } = useContext(AuthContext);
 
   const handleLocalSuccess = async (email, password) => {
     const inputData = {
@@ -42,14 +42,10 @@ export function useLocalAuth() {
 
       const data = await response.json();
 
-      //localStorage.setItem("accessToken", data.accessToken);
-      //localStorage.setItem("refreshToken", data.refreshToken);
-      //localStorage.setItem("user", JSON.stringify(data.user));
-
       await login(data.accessToken, data.refreshToken, data.user);
 
       console.log("successfully received data: ");
-      // setUserData(data.user);
+      
       return data;
     } catch (error) {
       setLocalError(error.message);
@@ -96,10 +92,7 @@ export function useLocalAuth() {
   };
 
   const localSignOut = async () => {
-    //localStorage.removeItem("accessToken");
-    //localStorage.removeItem("refreshToken");
-    //localStorage.removeItem("user");
-    const { logout } = React.useContext(AuthContext);
+    const { logout } = useContext(AuthContext);
     await logout();
   };
 

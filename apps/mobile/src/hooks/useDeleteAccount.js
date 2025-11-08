@@ -1,32 +1,29 @@
 // apps/mobile/src/hooks/useDeleteAccount.js
 
-// import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
-import * as SecureStore from "expo-secure-store";
-import * as AuthSession from "expo-auth-session";
+// import * as SecureStore from "expo-secure-store";
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { useState, useContext } from "react";
-import { AuthContext } from "./AuthContext";
+import { useState } from "react";
+import { useAuth } from "./AuthContext";
+import { authGoogleDelete } from "../services/authApi";
+// import { Platform } from "react-native";
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 WebBrowser.maybeCompleteAuthSession();
 
-const ACCESS_TOKEN_KEY = "userAccessToken";
-const REFRESH_TOKEN_KEY = "userRefreshToken";
-const USER_DATA_KEY = "userData";
-
 export function useDeleteAccount() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { logout } = useContext(AuthContext);
+  const { logout, accessToken, refreshToken } = useAuth();
 
-  const deleteAccount = async (password, authType) => {
+  const deleteLocalAccount = async (password, authType) => {
     setLoading(true);
     setError(null);
 
-    try {
-      const token = SecureStore.getItem(ACCESS_TOKEN_KEY);
+    try {    
+      const token = accessToken || refreshToken;
 
       if (!token) {
         throw new Error("Not authenticated");
@@ -49,7 +46,6 @@ export function useDeleteAccount() {
       }
 
       await logout();
-      SecureStore.deleteItemAsync(ACCESS_TOKEN_KEY);
       return true;
     } catch (err) {
       setError(err.message);
@@ -59,6 +55,19 @@ export function useDeleteAccount() {
       setLoading(false);
     }
   };
-  
-  return {deleteAccount, error, loading };
+
+  // const deleteGoogleAccount = async () => {
+  //   try {
+  //     await authGoogleDelete(accessToken, refreshToken);
+  //     await logout();
+  //   } catch (error) {
+  //     setError(error.message);
+  //     console.error("deleteGoogleAccount:", error);
+  //     throw err;
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  return {deleteLocalAccount, /*deleteGoogleAccount,*/ error, loading };
 }

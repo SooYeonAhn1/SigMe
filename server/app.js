@@ -15,7 +15,7 @@ const { deleteAccountController } = require("./auths/userAccount.service");
 const path = require("path");
 
 if (process.env.MONGODB_URI === undefined) {
-  // depending on cwd settings .env may not be loaded correctly
+  // depending on cwd .env may not be loaded correctly
   require("dotenv").config({
     path: path.resolve(__dirname, "..", ".env"),
   });
@@ -58,8 +58,11 @@ app.get("/", (req, res) => {
 app.post("/auth/google", googleLoginController);
 app.post("/api/register", registerController);
 app.post("/api/login", loginController);
+
 app.post("/api/checklist", authenticateToken, dailyChecklistController);
+
 app.delete("/api/users/delete", authenticateToken, deleteAccountController);
+
 console.log(`post to /api/checklist sent at ${PORT}`);
 
 app.listen(PORT, "0.0.0.0", () => {

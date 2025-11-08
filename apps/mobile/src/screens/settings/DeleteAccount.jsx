@@ -1,18 +1,18 @@
 // apps/mobile/src/screens/DeleteAccount.jsx
 
 import { useState, useEffect, useContext } from "react";
-import { View, Text, TextInput, Pressable, StyleSheet } from "react-native";
-// import { useNavigate } from "react-router-dom";
+import { View, Text, TextInput, Pressable, StyleSheet, Platform } from "react-native";
 import { useDeleteAccount } from "../../hooks/useDeleteAccount";
 import { useAuth } from "../../hooks/AuthContext";
-// import { Button, TextInput } from "react-native";
 
 export default function DeleteAccont({ navigation }) {
+  const developing = process.env.NODE_ENV === "development";
+
   const [password, setPassword] = useState("");
   const [authType, setAuthType] = useState("local");
   const [showPassword, setShowPassword] = useState(false);
   const { deleteAccount, error, loading } = useDeleteAccount();
-  const { userData } = useAuth();
+  const { userData, logout } = useAuth();
 
   useEffect(() => {
     if (userData?.authType) {
@@ -22,39 +22,18 @@ export default function DeleteAccont({ navigation }) {
 
   const handleDelete = async () => {
     try {
-      await deleteAccount(password, authType);
+      await deleteAccount(password, authType);      
+      await logout();
       alert("Account deleted successfully");
-      navigation.navigate("Landing");
-    } catch (err) {
+      if (!developing) navigation.navigate("Landing");
+    } catch (error) {
       alert("An error occurred while deleting your account. Please try again.");
-      console.error("Delete failed:", err);
+      console.error("Delete failed:", error);
     }
   };
 
-  // const WebDevInput = (
-  //   <form onSubmit={handleSubmitDev}>
-  //     <input
-  //       type="email"
-  //       id="email"
-  //       value={email}
-  //       onChange={(e) => setEmail(e.target.value)}
-  //       placeholder="Email"
-  //       required
-  //     />
-  //     <input
-  //       type="password"
-  //       id="password"
-  //       value={password}
-  //       onChange={(e) => setPassword(e.target.value)}
-  //       placeholder="Password"
-  //       required
-  //     />
-  //     <button type="submit">Register</button>
-  //   </form>
-  // );
-
   return (
-    <View style={styles.container}>
+    <View>
       <Text>Delete Account. Are you sure you want to delete your account?</Text>
       {console.log("deleteAccount component rendered")}
       <Text>
@@ -64,13 +43,18 @@ export default function DeleteAccont({ navigation }) {
         • This action cannot be undone
       </Text>
       {authType === "local" ? (
-        <>
-          <Text>Enter your password to confirm</Text>
-          <TextInput type={showPassword ? "text" : "password"} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-          <Pressable title="deleteAccount" onPress={() => setShowPassword(!showPassword)}>
-            {showPassword ? "Hide" : "Show"}
-          </Pressable>
-        </>
+          <View>
+            <Text>Enter your password to confirm</Text>
+            <TextInput
+                secureTextEntry={!showPassword} // secureTextEntry is TRUE if showPassword is FALSE
+                placeholder="Password"
+                value={password}
+                onChangeText={(text) => setPassword(text)}
+            />
+            <Pressable title="deleteAccount" onPress={() => setShowPassword(!showPassword)}>
+              <Text>{showPassword ? "Hide" : "Show"}</Text>
+            </Pressable>
+          </View>
       ) : (
         <Text>You are signed in with Google. Click delete to proceed.</Text>
       )}
@@ -78,12 +62,17 @@ export default function DeleteAccont({ navigation }) {
       <Pressable
         onPress={handleDelete}
         disabled={loading || (authType === "local" && !password)}
-        style={{color:"red"}}
       >
-        {loading ? "Deleting..." : "Delete Account"}
+        {loading ? (
+          <Text style={{color:"red"}}>Deleting...</Text>
+         ) : (<Text style={{color:"red"}}>Delete Account</Text>
+        )}
       </Pressable>
-      <Pressable onPress={() => navigation.navigate("Settings")}>Back</Pressable>
+      <Pressable onPress={() => navigation.navigate("Settings")}>
+      <Text>Back</Text>
+      </Pressable>
     </View>
+    
   );
 };
 

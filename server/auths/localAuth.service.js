@@ -21,11 +21,11 @@ async function registerController(req, res) {
 
     // Password validation
     const PASSWORD_REGEX =
-      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*,.?])[A-Za-z\d!@#$%^&*,.?]{8,}$/;
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[~!@#$%^&*,.?])[A-Za-z\d~!@#$%^&*,.?]{8,}$/;
     if (!PASSWORD_REGEX.test(password)) {
       return res.status(400).json({
         message:
-          "Password must be at least 8 characters and include at least one uppercase letter, one lowercase letter, one digit, and one special character from !@#$%^*,.?",
+          "Password must be at least 8 characters and include at least one uppercase letter, one lowercase letter, one digit, and one special character from ~!@#$%^*,.?",
       });
     }
 
