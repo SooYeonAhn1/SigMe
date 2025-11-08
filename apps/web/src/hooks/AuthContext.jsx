@@ -1,5 +1,4 @@
 // apps/web/src/hooks/AuthContext.jsx
-// Basically an AuthContext to manage user authentication state across the app
 
 import React, {
   createContext,
@@ -36,6 +35,9 @@ export const AuthProvider = ({ children }) => {
         if (userDataString) setUserData(JSON.parse(userDataString));
       } catch (error) {
         console.error("web/hooks/AuthContext userEffect error:", error);
+        setUserData(null);
+        setAccessToken(null);
+        setRefreshToken(null);
       } finally {
         setIsLoading(false);
       }
@@ -69,22 +71,15 @@ export const AuthProvider = ({ children }) => {
       WebStorage.removeItem(REFRESH_TOKEN_KEY);
       WebStorage.removeItem(USER_DATA_KEY);
     } catch (e) {
-      console.error("web/hooks/AuthContext logout error:", error);
+      console.error("web/src/hooks/AuthContext logout error:", error);
     }
-    console.log("Logout successful");
-  };
 
-  // useEffect(() => {
-  //   loadUserSession();
-  // }, []);
+  };
 
   const authContextValue = {
     accessToken,
     refreshToken,
     userData,
-    // setUserData,
-    // setAccessToken,
-    // setRefreshToken,
     isLoading,
     login,
     logout,

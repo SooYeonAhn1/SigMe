@@ -1,12 +1,12 @@
 // apps/mobile/src/hooks/useLocalAuth.jsx
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { registerUser } from '../services/authApi';
-import { AuthContext } from './AuthContext';
+import { registerUser, loginUser } from '../services/authApi';
+import { useAuth } from './AuthContext';
 
 export const useLocalAuth = () => {
-  const { setUser } = React.useContext(AuthContext);
+  const { setUserData } = useAuth();
   const navigation = useNavigation();
   const [authSuccess, setAuthSuccess] = useState(false);
   
@@ -23,7 +23,7 @@ export const useLocalAuth = () => {
       // registerUser calls the server, which returns { user, accessToken, refreshToken }
       const data = await registerUser(email, password);
       
-      setUser(data.user);
+      setUserData(data.user);
       return data;
     } catch (e) {
       console.error('useLocalAuth.jsx Registration failed:', e);
@@ -35,7 +35,7 @@ export const useLocalAuth = () => {
   };
 
   // 2. Local Login Function (POST /api/login)
-  /*
+  
   const login = async (email, password) => {
     setIsLoading(true);
     setError(null);
@@ -52,6 +52,6 @@ export const useLocalAuth = () => {
       setIsLoading(false);
     }
   };
-  */
-  return { register /*, login*/, isLoading, error };
+  
+  return { register, login, isLoading, error };
 };

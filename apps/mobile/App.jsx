@@ -4,7 +4,8 @@ import { AuthProvider } from "./src/hooks/AuthContext";
 import DailyLogs from "./src/screens/DailyLogs";
 import Landing from "./src/screens/Landing";
 import Register from "./src/screens/Register";
-import Settings from "./src/screens/Settings";
+import Settings from "./src/screens/settings";
+import DeleteAccount from "./src/screens/settings/DeleteAccount"
 import Reports from "./src/screens/Report";
 import MedsInfo from "./src/screens/MedsInfo";
 import Checklist from "./src/screens/Checklist";
@@ -33,6 +34,7 @@ export default function App() {
           <Stack.Screen name="Checklist" component={Checklist} />
           <Stack.Screen name="Dashboard" component={Dashboard} />
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Delete Account" component={DeleteAccount} />
         </Stack.Navigator>
       </NavigationContainer>
     </AuthProvider>
