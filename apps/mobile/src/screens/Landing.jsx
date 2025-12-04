@@ -12,7 +12,7 @@ import { useAuth } from "../hooks/AuthContext";
 
 export default function Landing({ navigation }) {
   const developing = process.env.NODE_ENV === "development"; //set to false when deploying the app
-  const { user, isLoading, signOut } = useAuth();
+  const { userData, isLoading, signOut } = useAuth();
 
   const goToRegister = () => {
     navigation.navigate("Register");
@@ -22,11 +22,11 @@ export default function Landing({ navigation }) {
     await signOut();
   };
 
-  console.log("Landing screen - isLoading: ", isLoading, " user: ", user);
+  console.log("Landing screen - isLoading: ", isLoading, " userData: ", userData);
   useEffect(() => {
     if (!isLoading) {
-      if (user) {
-        console.log("User is logged in: ", user);
+      if (userData) {
+        console.log("User is logged in: ", userData);
         navigation.navigate("Dashboard");
       } else {
         console.log("No user logged in, redirecting to Login.");
@@ -34,7 +34,7 @@ export default function Landing({ navigation }) {
           navigation.navigate("Login");
       }
     }
-  }, [isLoading, user, navigation]);
+  }, [isLoading, userData, navigation]);
 
   // const checkLoginAndRedirect = () => {
   //     const { googelIsSignedIn } = useGoogleAuth();
@@ -123,9 +123,9 @@ export default function Landing({ navigation }) {
 
       <TouchableOpacity
         disabled={!developing}
-        onPress={user ? handleSignOut : () => navigation.navigate("Login")}
+        onPress={userData ? handleSignOut : () => navigation.navigate("Login")}
       >
-        <Text>{user ? "Sign out" : "Sign in"}</Text>
+        <Text>{userData ? "Sign out" : "Sign in"}</Text>
       </TouchableOpacity>
     </View>
   );

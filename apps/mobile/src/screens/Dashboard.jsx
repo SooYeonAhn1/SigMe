@@ -52,10 +52,20 @@ export default function Dashboard({ navigation }) {
         onPress={() => navigation.navigate("Landing")}
       >
         <Text>Landing</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleSignOut}>
-        <Text>Sign Out</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> 
+      <Text>
+        {
+          userData ?
+          <TouchableOpacity onPress={handleSignOut}>
+            <Text>Sign Out</Text>
+          </TouchableOpacity>
+          :
+          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <Text>Sign In</Text>
+          </TouchableOpacity>
+        }
+      </Text>
+      
     </View>
   );
 }
