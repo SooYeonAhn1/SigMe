@@ -2,7 +2,7 @@ import { Platform } from "react-native";
 
 const ENV_BASE_URL = process.env.EXPO_PUBLIC_AUTH_API_BASE_URL; // port: 8081
 const GOOGLE_LOGIN_ENDPOINT_PATH = "/auth/google";
-const GOOGLE_DELETE_ENDPOINT_PATH = "/auth/google/delete";
+const GOOGLE_DELETE_ENDPOINT_PATH = "api/users/delete"; // "/auth/google/delete";
 const LOCAL_ENDPOINT_PATH_REGISTER = "/api/register";
 const LOCAL_ENDPOINT_PATH_LOGIN = "/api/login";
 
@@ -21,7 +21,7 @@ const GOOGLE_AUTH_API_URL_LOGIN = (() => {
   }
 })();
 
-/*
+
 const GOOGLE_AUTH_API_URL_DELETE = (() => {
   try {
     const url = new URL(ENV_BASE_URL);
@@ -36,7 +36,7 @@ const GOOGLE_AUTH_API_URL_DELETE = (() => {
     return `${ENV_BASE_URL}${GOOGLE_DELETE_ENDPOINT_PATH}`; // Fallback, though likely to fail
   }
 })();
-*/
+
 
 const LOCAL_AUTH_API_URL_REGISTER = (() => {
   try {
@@ -68,7 +68,8 @@ const LOCAL_AUTH_API_URL_LOGIN = (() => {
   }
 })();
 
-export const authGoogleLogin = async (idToken) => {
+export const authGoogleLogin = async (code, redirectUri) => {
+  console.log("redirectUri authApi:", redirectUri);
   try {
     const response = await fetch(GOOGLE_AUTH_API_URL_LOGIN, {
       method: "POST",
@@ -76,7 +77,8 @@ export const authGoogleLogin = async (idToken) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        token: idToken,
+        code: code,
+        redirectUri: redirectUri,
       }),
     });
 
@@ -97,13 +99,11 @@ export const authGoogleLogin = async (idToken) => {
   }
 };
 
-/*
 export const authGoogleDelete = async (accessToken, refreshToken) => {
-  const tokenToRevoke = refreshToken || accessToken;
-  
+const tokenToRevoke = refreshToken || accessToken;
   try {
     const response = await fetch(GOOGLE_AUTH_API_URL_DELETE, {
-      method: "POST",
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${tokenToRevoke}`,
@@ -116,17 +116,11 @@ export const authGoogleDelete = async (accessToken, refreshToken) => {
         .catch(() => ({ message: "Backend failed - Google Auth Account Deletion" }));
       throw new Error(errorData.message || "Backend failed - Google Auth Account Deletion");
     }
-
-    // const data = await response.json();
-    // console.log("successfully received data: ", data);
-
-    // return data;
   } catch (error) {
     console.error("Error in authGoogleDelete:", error);
     throw error;
   }
 };
-*/
 
 export const registerUser = async (email, password) => {
   console.log("registerUser called with email: ", email);

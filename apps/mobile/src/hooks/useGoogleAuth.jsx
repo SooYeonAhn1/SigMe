@@ -24,28 +24,35 @@ export const useGoogleAuth = () => {
     web: process.env.NODE_ENV === "development" ? WEB_REDIRECT_URI : undefined,
   });
 
+  console.log("google login redirectUri:", redirectUri);
+
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
     iosClientId: process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID,
     androidClientId: process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID,
     webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
     redirectUri: redirectUri,
-    responseType: AuthSession.ResponseType.IdToken,
+    responseType: AuthSession.ResponseType.Code,
     scopes: ["profile", "email", "openid"],
+    extraParams: {
+        prompt: 'select_account consent', 
+    },
   });
 
   useEffect(() => {
     const handleLogin = async () => {
-      if (response?.type === "success" && response.params?.id_token) {
-        const idToken = response.params.id_token;
-        if (!idToken) {
+      if (response?.type === "success" && response.params?.code) {
+        console.log("responsetype is success");
+        const code = response.params.code;
+        console.log("code validy:", !!code);
+        if (!code) {
           console.error(
-            "ID Token not received. Check 'response_type' and 'scopes'."
+            "Code not received. Check 'response_type' and 'scopes'."
           );
           return;
         }
         try {
-          const data = await authGoogleLogin(idToken);
+          const data = await authGoogleLogin(code, redirectUri);
           await login(data.accessToken, data.refreshToken, data.user);
           console.log("google login worked");
           setAuthSuccess(true);

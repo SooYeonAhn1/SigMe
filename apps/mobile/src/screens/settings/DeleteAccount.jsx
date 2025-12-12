@@ -11,7 +11,7 @@ export default function DeleteAccont({ navigation }) {
   const [password, setPassword] = useState("");
   const [authType, setAuthType] = useState("local");
   const [showPassword, setShowPassword] = useState(false);
-  const { deleteAccount, error, loading } = useDeleteAccount();
+  const { deleteLocalAccount, deleteGoogleAccount, error, loading } = useDeleteAccount();
   const { userData, logout } = useAuth();
 
   useEffect(() => {
@@ -22,7 +22,12 @@ export default function DeleteAccont({ navigation }) {
 
   const handleDelete = async () => {
     try {
-      await deleteAccount(password, authType);      
+      if (authType == "local") {
+        await deleteLocalAccount(password, authType);      
+      } else {
+        await deleteGoogleAccount();
+      }
+      
       await logout();
       alert("Account deleted successfully");
       if (!developing) navigation.navigate("Landing");

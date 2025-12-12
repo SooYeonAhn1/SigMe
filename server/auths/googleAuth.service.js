@@ -1,48 +1,66 @@
-// originally index.js
-
 const jwtUtils = require("./jwt");
 const passwordUtils = require("./password");
 const UserDB = require("../models/User");
 const { OAuth2Client } = require("google-auth-library");
 
-const GOOGLE_WEB_CLIENT_ID = process.env.GOOGLE_WEB_CLIENT_ID;
-const googleClient = new OAuth2Client(GOOGLE_WEB_CLIENT_ID);
+// code verification set up
+async function verifyGoogleCode(code, redirectUri) {
+  const GOOGLE_WEB_CLIENT_ID = process.env.GOOGLE_WEB_CLIENT_ID;
+  const GOOGLE_WEB_CLIENT_SECRET = (process.env.GOOGLE_WEB_CLIENT_SECRET || "").trim();
 
-// token verification set up
-async function verifyGoogleToken(token) {
+  if (!GOOGLE_WEB_CLIENT_ID || !GOOGLE_WEB_CLIENT_SECRET || !redirectUri || !code) {
+    throw new Error("Missing credentials or code for exchange.");
+  }
+
+  const googleClient = new OAuth2Client(
+    GOOGLE_WEB_CLIENT_ID,
+    GOOGLE_WEB_CLIENT_SECRET,
+    redirectUri
+  );
+
+  const tokenResponse = await googleClient.getToken(code);
+  const googleTokens = tokenResponse.tokens;
+
   const ticket = await googleClient.verifyIdToken({
-    idToken: token,
+    idToken: googleTokens.id_token,
     audience: GOOGLE_WEB_CLIENT_ID,
   });
+
   const payload = ticket.getPayload();
-  return {
+    
+  const googleUser = {
     email: payload.email,
     name: payload.name,
     picture: payload.picture,
     email_verified: payload.email_verified,
     sub: payload.sub,
   };
+
+  return { googleUser, googleTokens };
 }
 
 // social login controller
 async function googleLoginController(req, res) {
-  const { token } = req.body;
-  if (!token) {
+  console.log("📥 Controller received body:", req.body);
+  
+  const { code, redirectUri } = req.body;
+  
+  if (!code) {
     return res.status(400).json({ message: "Token is required" });
   }
 
   let googleUser;
+  let googleTokens;
   try {
-    googleUser = await verifyGoogleToken(token);
+    const codeVerificationResponse = await verifyGoogleCode(code, redirectUri);
+    googleUser = codeVerificationResponse.googleUser;
+    googleTokens = codeVerificationResponse.googleTokens;
   } catch (error) {
-    console.error("Google Token Verification Error:", error);
-    return res.status(401).json({ message: "Invalid Google token" });
+    console.error("Google Code Verification Error:", error.message);
+    return res.status(401).json({ message: "Invalid Authorization Code or configuration" });
   }
 
-  if (!googleUser.email_verified) {
-    return res.status(403).json({ message: "Google email not verified" });
-  }
-
+  const googleRefreshToken = googleTokens.refresh_token;
   const googleUID = googleUser.sub;
 
   let user = await UserDB.findOne({
@@ -53,13 +71,15 @@ async function googleLoginController(req, res) {
   });
 
   if (user) {
-    // If user was found by email but is missing the googleUID field (e.g., local login merging to Google)
     if (!user.google || !user.google.googleUID) {
-      // Merge account: Link the Google UID and set authType
-      user.google = { googleUID: googleUID };
+      user.google = { googleUID: googleUID, refreshToken: googleRefreshToken };
       user.authType = "google";
-      await user.save();
+      user.markModified('google');
+    } else if (googleRefreshToken && user.google.refreshToken !== googleRefreshToken) {
+      user.google.refreshToken = googleRefreshToken;
+      user.markModified('google'); 
     }
+    await user.save();
   } else {
     // Ensure a unique username is created (Simple solution: use part of email)
     const usernameBase = googleUser.email.split("@")[0];
@@ -70,7 +90,7 @@ async function googleLoginController(req, res) {
       username: usernameBase,
       picture: googleUser.picture,
       authType: "google",
-      google: { googleUID: googleUID },
+      google: { googleUID: googleUID, refreshToken: googleRefreshToken },
     });
     await user.save();
   }

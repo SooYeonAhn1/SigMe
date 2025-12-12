@@ -1,5 +1,18 @@
 require("dotenv").config();
 
+const path = require("path");
+
+if (process.env.MONGODB_URI === undefined) {
+  // depending on cwd .env may not be loaded correctly
+  require("dotenv").config({
+    path: path.resolve(__dirname, "..", ".env"),
+  });
+}
+
+console.log('Client ID Defined:', !!process.env.GOOGLE_WEB_CLIENT_ID);
+console.log('Client Secret Defined:', !!process.env.GOOGLE_WEB_CLIENT_SECRET);
+console.log(`Secret Length: ${process.env.GOOGLE_WEB_CLIENT_SECRET.length}`);
+
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -11,15 +24,6 @@ const {
 const { authenticateToken } = require("./middleware/auth");
 const { dailyChecklistController } = require("./auths/checklist.service");
 const { deleteAccountController } = require("./auths/userAccount.service");
-
-const path = require("path");
-
-if (process.env.MONGODB_URI === undefined) {
-  // depending on cwd .env may not be loaded correctly
-  require("dotenv").config({
-    path: path.resolve(__dirname, "..", ".env"),
-  });
-}
 
 mongoose
   .connect(process.env.MONGODB_URI)

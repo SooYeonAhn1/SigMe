@@ -56,18 +56,19 @@ export function useDeleteAccount() {
     }
   };
 
-  // const deleteGoogleAccount = async () => {
-  //   try {
-  //     await authGoogleDelete(accessToken, refreshToken);
-  //     await logout();
-  //   } catch (error) {
-  //     setError(error.message);
-  //     console.error("deleteGoogleAccount:", error);
-  //     throw err;
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+  const deleteGoogleAccount = async () => {
+    try {
+      const token = accessToken || refreshToken;
+      await authGoogleDelete(accessToken, refreshToken);
+      await logout();
+    } catch (error) {
+      setError(error.message);
+      console.error("deleteGoogleAccount:", error);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  return {deleteLocalAccount, /*deleteGoogleAccount,*/ error, loading };
+  return {deleteLocalAccount, deleteGoogleAccount, error, loading };
 }
