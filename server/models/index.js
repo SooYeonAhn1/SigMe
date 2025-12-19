@@ -1,11 +1,15 @@
 const User = require("./User");
 const Symptom = require("./Symptom");
 const Question = require("./Question");
-const OnboardingResponse = require("./OnboardingProfile");
+const OnboardingProfile = require("./OnboardingProfile");
+const MenstruationProfile = require("./MenstruationLog");
+const VisitDate = require("./VisitDate");
 
 module.exports = {
   User,
   Symptom,
   Question,
-  OnboardingResponse,
+  OnboardingProfile,
+  MenstruationProfile,
+  VisitDate,
 };
