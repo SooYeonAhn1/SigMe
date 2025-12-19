@@ -1,3 +1,4 @@
+// server\models\OnboardingProfile.js
 const mongoose = require("mongoose");
 
 const onboardingProfileSchema = new mongoose.Schema(
@@ -14,32 +15,16 @@ const onboardingProfileSchema = new mongoose.Schema(
         ref: "Symptom",
       },
     ],
-    isDiagnosed: {
-      type: Boolean,
-      required: true,
-    },
-    isVisitingHospital: {
-      type: String,
-      enum: ["currently", "never", "visited_before"],
-      required: true,
-    },
     dailyResetHour: {
       type: Number,
       default: 4,
     },
     features: {
       menstruation: {
-        enabled: {
+        isEnabled: {
           type: Boolean,
           default: false,
-        },
-        initialData: {
-          averageCycle: Number,
-          averagePeriodLength: Number,
-          lastPeriodStartDate: Date,
-          knowsOvulationDate: Boolean,
-          ovulationDate: Date,
-        },
+        }
       },
       medicationTimes: [
         {
