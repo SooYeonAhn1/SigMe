@@ -24,3 +24,6 @@ const menstruationProfileSchema = new mongoose.Schema({
 //     cycleLength: Number
 //   }],
 }, { timestamps: true });
+
+const MenstruationProfile = mongoose.models.MenstruationProfile || mongoose.model("MenstruationProfile", menstruationProfileSchema);
+module.exports = MenstruationProfile;

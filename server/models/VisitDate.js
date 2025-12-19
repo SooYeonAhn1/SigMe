@@ -1,6 +1,7 @@
 // server\models\VisitDate.js
+const mongoose = require("mongoose");
 
-const visitSchema = new mongoose.Schema({
+const visitDateSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -17,5 +18,8 @@ const visitSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
-visitSchema.index({ userId: 1, scheduledDate: 1 });
-visitSchema.index({ status: 1 });
+visitDateSchema.index({ userId: 1, scheduledDate: 1 });
+visitDateSchema.index({ status: 1 });
+
+const VisitDate = mongoose.models.VisitDate || mongoose.model("VisitDate", visitDateSchema);
+module.exports = VisitDate;
