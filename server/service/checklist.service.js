@@ -1,6 +1,6 @@
 // apps/server/auths/checklist.service.js
 
-const jwtUtils = require("./jwt");
+const jwtUtils = require("../auths/jwt");
 const DailyChecklistDB = require("../models/DailyChecklist");
 
 async function dailyChecklistController(req, res) {
