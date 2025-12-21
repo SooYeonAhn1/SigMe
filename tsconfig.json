@@ -9,7 +9,7 @@
     "moduleResolution": "Node16",
     "baseUrl": ".",
     "paths": {
-      "@app/shared-types": ["packages/shared-types"],
+      "@app/shared-types": ["packages/shared"],
       "@app/utils": ["packages/utils"]
     }
   },

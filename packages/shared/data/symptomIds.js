@@ -1,0 +1,10 @@
+const SYMPTOM_IDS = {
+  DEPRESSION: "6947cfdd1aeceddeb6d9f4c3",
+  BIPOLAR: "6947cff816e1fa2d1defe77f",
+  ANXIETY: "6947d00054e9ca182d9b7e6a",
+  PANIC: "6947d004d765c2775edf33fd",
+  ADHD: "6947d00958dfc8b1620ce470",
+  GENERAL: "6947d00dd87eab6e94b50585",
+};
+
+module.exports = SYMPTOM_IDS;
