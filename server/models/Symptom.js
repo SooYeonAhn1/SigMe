@@ -8,16 +8,11 @@ const symptomSchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
-    displayName: {
+    desc_KO: {
       type: String,
       required: true,
     },
-    description: String,
-    /*    category: {
-      type: String,
-      enum: ["bipolar", "depression", "adhd", "other"],
-      default: "other",
-    },*/
+    desc_EN: String,
     relatedQuestions: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -29,8 +24,6 @@ const symptomSchema = new mongoose.Schema(
 );
 
 symptomSchema.index({ name: 1 });
-symptomSchema.index({ isActive: 1 });
-symptomSchema.index({ category: 1 });
 
 const Symptom =
   mongoose.models.Symptom || mongoose.model("Symptom", symptomSchema);
