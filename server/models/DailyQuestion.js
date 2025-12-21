@@ -1,12 +1,18 @@
 const mongoose = require("mongoose");
 
-const questionSchema = new mongoose.Schema(
+const dailyQuestionSchema = new mongoose.Schema(
   {
     questionText: {
-      type: String,
-      required: true,
+      ko: {
+        type: String,
+        required: true,
+      },
+      en: {
+        type: String,
+        required: true,
+      },
     },
-    Category: {
+    category: {
       type: String,
       enum: ["daily", "as_needed"],
       required: true,
@@ -55,16 +61,15 @@ const questionSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    required: false,
   },
-  { timestamps: true }
+  { timestamps: false }
 );
 
-questionSchema.index({ category: 1, order: 1 });
-questionSchema.index({ isActive: 1 });
-questionSchema.index({ relatedSymptoms: 1 });
+dailyQuestionSchema.index({ category: 1, order: 1 });
+dailyQuestionSchema.index({ relatedSymptoms: 1 });
 
-const Question =
-  mongoose.models.Question || mongoose.model("Question", questionSchema);
+const DailyQuestion =
+  mongoose.models.Question ||
+  mongoose.model("DailyQuestion", dailyQuestionSchema);
 
-module.exports = Question;
+module.exports = DailyQuestion;

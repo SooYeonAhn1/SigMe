@@ -8,19 +8,18 @@ const symptomSchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
-    desc_KO: {
-      type: String,
-      required: true,
-    },
-    desc_EN: String,
-    relatedQuestions: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Question",
+    description: {
+      ko: {
+        type: String,
+        required: true,
       },
-    ],
+      en: {
+        type: String,
+        required: true,
+      },
+    },
   },
-  { timestamps: true }
+  { timestamps: false }
 );
 
 symptomSchema.index({ name: 1 });

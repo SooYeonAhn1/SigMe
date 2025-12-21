@@ -17,8 +17,8 @@ const {
   saveOnboardingController,
   saveVisitDateController,
   saveMenstruationController,
-  getOnboardingController
-} = require("./services/onboarding.service");
+  getOnboardingController,
+} = require("./service/onboarding.service");
 
 const path = require("path");
 
